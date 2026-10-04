@@ -10,12 +10,12 @@ import type {
 } from '../schema/shared/types/infer.ts';
 import type { BeatmapFileType } from '../schema/shared/types/schema.ts';
 import { convertBeatmap } from '../mapping/converter.ts';
-import { optimizeBeatmap } from '../mapping/optimizer.ts';
-import { serializeBeatmap } from '../mapping/serialize.ts';
+import { resolveBeatmapOptimizer } from '../mapping/optimizer.ts';
 import { compatibilityCheck } from '../mapping/compatibility.ts';
 import { validateJSON } from '../mapping/validator.ts';
 import { isSupportedMajorVersion } from '../helpers/version.ts';
 import { isRecord, jsonTypeName } from '../../utils/misc/json.ts';
+import { resolveBeatmapSerializer } from '../mapping/serialize.ts';
 
 export function tag(name: string): string[] {
    return ['saver', name];
@@ -41,6 +41,7 @@ const defaultOptions = {
    forceConvert: true,
    optimize: {
       enabled: true,
+      fastMode: true,
       deduplicate: true,
       floatTrim: 8,
       purgeZeros: true,
@@ -66,15 +67,14 @@ export function saveBeatmap<
 ): TSerial {
    const logger = getLogger();
 
-   const optD = (typeof version !== 'number' ? version : options) ?? options ?? {};
    const opt: Required<ISaveOptions<TFileType, TVersion, TWrapper, TSerial>> = {
-      format: optD.format ?? defaultOptions.format,
-      forceConvert: optD.forceConvert ?? defaultOptions.forceConvert,
-      optimize: { ...defaultOptions.optimize, ...optD.optimize },
-      validate: { ...defaultOptions.validate, ...optD.validate },
-      sort: optD.sort ?? defaultOptions.sort,
-      preprocess: optD.preprocess ?? defaultOptions.preprocess as any,
-      postprocess: optD.postprocess ?? defaultOptions.postprocess as any,
+      format: options.format ?? defaultOptions.format,
+      forceConvert: options.forceConvert ?? defaultOptions.forceConvert,
+      optimize: { ...defaultOptions.optimize, ...options.optimize },
+      validate: { ...defaultOptions.validate, ...options.validate },
+      sort: options.sort ?? defaultOptions.sort,
+      preprocess: options.preprocess ?? defaultOptions.preprocess as any,
+      postprocess: options.postprocess ?? defaultOptions.postprocess as any,
    };
 
    const [pretransformer, ...preprocesses] = opt.preprocess;
@@ -136,14 +136,6 @@ export function saveBeatmap<
       );
    }
 
-   // TODO: validate beatmap properly
-   // if (opt.validate.enabled) {
-   //    logger?.tInfo(tag('saveBeatmap'), 'Validating beatmap');
-   //    if (!data.isValid()) {
-   //       logger?.tWarn(tag('saveBeatmap'), 'Invalid data detected in beatmap');
-   //    }
-   // }
-
    if (opt.sort && 'sort' in attribute && typeof attribute.sort === 'function') {
       logger?.tInfo(tag('saveBeatmap'), 'Sorting beatmap objects');
       attribute.sort();
@@ -155,7 +147,12 @@ export function saveBeatmap<
 
    logger?.tInfo(tag('saveBeatmap'), 'Serializing beatmap ' + type + ' as JSON');
 
-   let serial = serializeBeatmap(type, ver, attribute);
+   const serializer = resolveBeatmapSerializer(type, ver);
+   const serialize = serializer.serialize;
+   let serial = Reflect.apply(serialize, serializer, [attribute]) as InferBeatmapSerial<
+      TFileType,
+      TVersion
+   >;
    if (!serial) {
       throw new Error(
          'Failed to serialize beatmap, version ' + ver + ' is not supported.',
@@ -164,7 +161,10 @@ export function saveBeatmap<
 
    if (opt.optimize.enabled) {
       logger?.tInfo(tag('saveBeatmap'), 'Optimizing beatmap JSON');
-      optimizeBeatmap(type, ver, serial, opt.optimize);
+      const optimize = resolveBeatmapOptimizer(type, ver);
+      if (optimize !== null) {
+         optimize(serial, opt.optimize);
+      }
    }
 
    if (opt.validate.enabled) {

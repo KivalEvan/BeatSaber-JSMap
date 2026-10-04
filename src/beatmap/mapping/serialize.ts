@@ -84,7 +84,9 @@ function resolveSerializer(
  * @param type The beatmap file type.
  * @param version The map format of the beatmap file.
  * @param data The wrapper contents of the beatmap file.
- * @returns The newly-transformed serial contents of the beatmap file.
+ * @returns The serialized contents of the beatmap file.
+ * Custom serializers can retain or share their output.
+ * @throws If the file type or version has no serializer, or the selected serializer throws.
  */
 export function serializeBeatmap<
    TFileType extends BeatmapFileType,
@@ -96,6 +98,15 @@ export function serializeBeatmap<
    version: TVersion,
    data: TWrapper,
 ): TSerial {
+   const serializer = resolveBeatmapSerializer(type, version);
+   return serializer.serialize(data) as TSerial;
+}
+
+/** @internal Resolve once so saving can establish ownership from the invoked serializer. */
+export function resolveBeatmapSerializer(
+   type: BeatmapFileType,
+   version: number,
+): ISerializerEntry {
    const logger = getLogger();
 
    logger?.tInfo(
@@ -105,20 +116,16 @@ export function serializeBeatmap<
 
    switch (type) {
       case 'info': {
-         const serializer = resolveSerializer(infoSerializerMap, type, version as number);
-         return serializer.serialize(data) as TSerial;
+         return resolveSerializer(infoSerializerMap, type, version);
       }
       case 'audioData': {
-         const serializer = resolveSerializer(audioDataSerializerMap, type, version as number);
-         return serializer.serialize(data) as TSerial;
+         return resolveSerializer(audioDataSerializerMap, type, version);
       }
       case 'difficulty': {
-         const serializer = resolveSerializer(difficultySerializerMap, type, version as number);
-         return serializer.serialize(data) as TSerial;
+         return resolveSerializer(difficultySerializerMap, type, version);
       }
       case 'lightshow': {
-         const serializer = resolveSerializer(lightshowSerializerMap, type, version as number);
-         return serializer.serialize(data) as TSerial;
+         return resolveSerializer(lightshowSerializerMap, type, version);
       }
       default:
          throw new Error(`Unsupported beatmap file type: ${type}`);

@@ -29,20 +29,6 @@ import type { ILightTranslationEvent } from './types/lightTranslationEvent.ts';
 import type { ILightTranslationEventBox } from './types/lightTranslationEventBox.ts';
 import type { ILightTranslationEventBoxGroup } from './types/lightTranslationEventBoxGroup.ts';
 
-function copyCustomDataTwice<T extends object>(
-   value: T | null | undefined,
-   options?: IDeserializationOptions,
-): T {
-   return copyCustomData(copyCustomData(value, options), options);
-}
-
-function copyCustomDataThrice<T extends object>(
-   value: T | null | undefined,
-   options?: IDeserializationOptions,
-): T {
-   return copyCustomData(copyCustomDataTwice(value, options), options);
-}
-
 function deserializeDirectIndexFilter(
    data: IIndexFilter,
    options?: IDeserializationOptions,
@@ -57,7 +43,7 @@ function deserializeDirectIndexFilter(
       seed: data.s ?? 0,
       limit: data.l ?? 0,
       limitAffectsType: data.d ?? 0,
-      customData: copyCustomDataThrice(data.customData, options),
+      customData: copyCustomData(data.customData, options),
    };
 }
 
@@ -83,7 +69,7 @@ function deserializeDirectLightColorEvent(
       strobeBrightness: strobeBrightness ?? 0,
       strobeFade: strobeFade ?? 0,
       easing: easingTransition === TransitionType.INTERPOLATE ? EaseType.LINEAR : EaseType.NONE,
-      customData: copyCustomDataThrice(customData, options),
+      customData: copyCustomData(customData, options),
    };
 }
 
@@ -98,7 +84,7 @@ function deserializeDirectLightRotationEvent(
       direction: data.o ?? 0,
       previous: data.p ?? 0,
       rotation: data.r ?? 0,
-      customData: copyCustomDataThrice(data.customData, options),
+      customData: copyCustomData(data.customData, options),
    };
 }
 
@@ -111,7 +97,7 @@ function deserializeDirectLightTranslationEvent(
       easing: data.e ?? 0,
       previous: data.p ?? 0,
       translation: data.t ?? 0,
-      customData: copyCustomDataThrice(data.customData, options),
+      customData: copyCustomData(data.customData, options),
    };
 }
 
@@ -124,7 +110,7 @@ function deserializeDirectFxEventFloat(
       easing: data.i ?? 0,
       previous: data.p ?? 0,
       value: data.v ?? 0,
-      customData: copyCustomDataThrice(data.customData, options),
+      customData: copyCustomData(data.customData, options),
    };
 }
 
@@ -141,7 +127,7 @@ function deserializeDirectLightColorEventBox(
       affectFirst: data.b ?? 0,
       easing: data.i ?? 0,
       events: data.e?.map((event) => deserializeDirectLightColorEvent(event, options)) ?? [],
-      customData: copyCustomDataTwice(data.customData, options),
+      customData: copyCustomData(data.customData, options),
    };
 }
 
@@ -171,7 +157,7 @@ function deserializeDirectLightRotationEventBox(
       affectFirst: affectFirst ?? 0,
       easing: easing ?? 0,
       events: events ?? [],
-      customData: copyCustomDataTwice(customData, options),
+      customData: copyCustomData(customData, options),
    };
 }
 
@@ -201,7 +187,7 @@ function deserializeDirectLightTranslationEventBox(
       affectFirst: affectFirst ?? 0,
       easing: easing ?? 0,
       events: events ?? [],
-      customData: copyCustomDataTwice(customData, options),
+      customData: copyCustomData(customData, options),
    };
 }
 
@@ -219,7 +205,7 @@ function deserializeDirectFxEventBox(
       affectFirst: data.b ?? 0,
       easing: data.i ?? 0,
       events: events.map((event) => deserializeDirectFxEventFloat(event, options)),
-      customData: copyCustomDataTwice(data.customData, options),
+      customData: copyCustomData(data.customData, options),
    };
 }
 

@@ -79,6 +79,10 @@ are replaced by direction-specific maps. Use these exported names:
 
 These maps are exported from the root package.
 
+`serializeBeatmap` returns schema data. `optimizeBeatmap` modifies that data in place using its
+cleanup configuration. Eligible v3/v4 data objects are replaced by default. The normal save
+functions handle serialization and optimization automatically.
+
 ### Number formatting
 
 `formatNumber` is removed. The old helper grouped the integer part of `number.toString()` and kept
@@ -194,6 +198,27 @@ globals.directory = './YOUR/MAP/FOLDER/PATH/';
 > character in programming world and would result in error. You may need to change the slash or
 > escape character.
 
+### Fast optimization mode
+
+V3/v4 difficulty and lightshow optimization uses `fastMode: true` by default, both directly and
+during saving. This can reduce time and memory use without changing the JSON output. Fast mode
+replaces eligible schema data objects, so external references to that data become stale.
+
+Speed gains depend on the data and cleanup options. With `purgeZeros: false`, fast mode can take
+longer than in-place cleanup.
+
+If you retain references to individual schema data objects, disable fast mode:
+
+```ts
+const serial = saveDifficulty(data, 4, { optimize: { fastMode: false } });
+```
+
+Pass `fastMode: false` in the cleanup options for direct `optimizeBeatmap` or schema optimizer
+calls. Fast mode keeps the root and arrays in place and does not copy nested custom data. Existing
+deduplication can still replace data arrays. Internal aliases are preserved. Custom serializer and
+optimizer overrides receive the same mode option during saving. Other schema versions and file types
+keep their existing cleanup behavior.
+
 ## Beatmap Objects
 
 Use primitive `IWrap*` objects for beatmap data. The `create*` factories create these objects with
@@ -226,6 +251,9 @@ put it into an array. This prevents accidental reuse of the same object referenc
 ### Copy Objects
 
 Use `deepCopy` when you need an independent copy, including its custom data.
+
+Custom data uses plain JSON values. Accessors, symbols, and custom prototype behavior are not part
+of this contract.
 
 ```ts
 const original = wrapper.createColorNote({ time: 1 });

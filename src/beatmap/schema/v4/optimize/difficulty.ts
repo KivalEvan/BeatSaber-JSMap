@@ -3,6 +3,7 @@ import type { IOptimizeOptions } from '../../../mapping/types/optimize.ts';
 import type { IDifficulty } from '../types/difficulty.ts';
 import { deepClean, purgeZeros, remapDedupe } from '../../../helpers/optimize.ts';
 import { isEmpty } from '../../../../utils/misc/json.ts';
+import { compactData, sharedData } from '../../../helpers/_compact.ts';
 
 /**
  * Optimize v4 `Difficulty` schema data.
@@ -11,6 +12,7 @@ export function optimizeDifficulty(
    data: IDifficulty,
    options: IOptimizeOptions,
 ) {
+   const compact = options.fastMode ?? true;
    if (options.deduplicate) {
       const [newNoteColorData, remapColorNoteIdx] = remapDedupe(
          data.colorNotesData ?? [],
@@ -76,6 +78,8 @@ export function optimizeDifficulty(
       else delete data.spawnRotationsData;
    }
 
+   const shared = compact ? sharedData(data) : null;
+
    for (let i = 0; i < data.arcs!.length; i++) {
       const o = data.arcs![i];
       if (options.floatTrim) {
@@ -85,6 +89,10 @@ export function optimizeDifficulty(
          o.tr = round(o.tr!, options.floatTrim);
       }
       deepClean(o.customData!, `difficulty.arcs[${i}].customData`, options);
+      if (compact && !shared!.has(o)) {
+         data.arcs![i] = compactData(o, options);
+         continue;
+      }
       if (isEmpty(o.customData!)) {
          delete o.customData;
       }
@@ -97,6 +105,10 @@ export function optimizeDifficulty(
          o.tm = round(o.tm!, options.floatTrim);
       }
       deepClean(o.customData!, `difficulty.arcsData[${i}].customData`, options);
+      if (compact && !shared!.has(o)) {
+         data.arcsData![i] = compactData(o, options);
+         continue;
+      }
       if (isEmpty(o.customData!)) {
          delete o.customData;
       }
@@ -112,6 +124,10 @@ export function optimizeDifficulty(
          `difficulty.bombNotes[${i}].customData`,
          options,
       );
+      if (compact && !shared!.has(o)) {
+         data.bombNotes![i] = compactData(o, options);
+         continue;
+      }
       if (isEmpty(o.customData!)) {
          delete o.customData;
       }
@@ -124,6 +140,10 @@ export function optimizeDifficulty(
          `difficulty.bombNotesData[${i}].customData`,
          options,
       );
+      if (compact && !shared!.has(o)) {
+         data.bombNotesData![i] = compactData(o, options);
+         continue;
+      }
       if (isEmpty(o.customData!)) {
          delete o.customData;
       }
@@ -138,6 +158,10 @@ export function optimizeDifficulty(
          o.tr = round(o.tr!, options.floatTrim);
       }
       deepClean(o.customData!, `difficulty.chains[${i}].customData`, options);
+      if (compact && !shared!.has(o)) {
+         data.chains![i] = compactData(o, options);
+         continue;
+      }
       if (isEmpty(o.customData!)) {
          delete o.customData;
       }
@@ -153,6 +177,10 @@ export function optimizeDifficulty(
          `difficulty.chainsData[${i}].customData`,
          options,
       );
+      if (compact && !shared!.has(o)) {
+         data.chainsData![i] = compactData(o, options);
+         continue;
+      }
       if (isEmpty(o.customData!)) {
          delete o.customData;
       }
@@ -169,6 +197,10 @@ export function optimizeDifficulty(
          `difficulty.colorNotes[${i}].customData`,
          options,
       );
+      if (compact && !shared!.has(o)) {
+         data.colorNotes![i] = compactData(o, options);
+         continue;
+      }
       if (isEmpty(o.customData!)) {
          delete o.customData;
       }
@@ -184,6 +216,10 @@ export function optimizeDifficulty(
          `difficulty.colorNotesData[${i}].customData`,
          options,
       );
+      if (compact && !shared!.has(o)) {
+         data.colorNotesData![i] = compactData(o, options);
+         continue;
+      }
       if (isEmpty(o.customData!)) {
          delete o.customData;
       }
@@ -200,6 +236,10 @@ export function optimizeDifficulty(
          `difficulty.obstacles[${i}].customData`,
          options,
       );
+      if (compact && !shared!.has(o)) {
+         data.obstacles![i] = compactData(o, options);
+         continue;
+      }
       if (isEmpty(o.customData!)) {
          delete o.customData;
       }
@@ -215,6 +255,10 @@ export function optimizeDifficulty(
          `difficulty.obstaclesData[${i}].customData`,
          options,
       );
+      if (compact && !shared!.has(o)) {
+         data.obstaclesData![i] = compactData(o, options);
+         continue;
+      }
       if (isEmpty(o.customData!)) {
          delete o.customData;
       }

@@ -1,2 +1,2 @@
-export * from './difficulty.ts';
-export * from './lightshow.ts';
+export { optimizeDifficulty } from './difficulty.ts';
+export { optimizeLightshow } from './lightshow.ts';

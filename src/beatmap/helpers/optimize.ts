@@ -1,5 +1,6 @@
 import { getLogger } from '../../logger.ts';
 import { stableJsonKey } from '../../utils/misc/json.ts';
+import { hasOwn } from '../../utils/misc/hasOwn.ts';
 import { round } from '../../utils/math/helpers.ts';
 import type { IOptimizeOptions } from '../mapping/types/optimize.ts';
 
@@ -61,7 +62,19 @@ export function purgeZeros(data: Record<string, any>) {
    }
 }
 
-/** Recursively clean object data. */
+function isEmptyJsonObject(obj: Record<string, unknown>): boolean {
+   for (const key in obj) {
+      if (!hasOwn(obj, key)) continue;
+      // JSON omits these property values, even when the key is present.
+      const type = typeof obj[key];
+      if (type !== 'undefined' && type !== 'function' && type !== 'symbol') {
+         return false;
+      }
+   }
+   return true;
+}
+
+/** Recursively clean plain JSON object data in place. */
 export function deepClean(
    // deno-lint-ignore no-explicit-any
    obj: { [key: string | number]: any } | any[],
@@ -110,36 +123,33 @@ export function deepClean(
 
       // recursion stuff
       if (typeof d === 'object') {
-         // filter out undefined in array
-         if (Array.isArray(d)) {
-            const len = d.length;
-            const newAry = d.filter((e: unknown) => e !== undefined);
-            if (len !== newAry.length) {
-               if (options.throwNullish) {
-                  throw new Error(
-                     `undefined found in array key ${name}.${k}.}`,
-                  );
-               } else {
-                  logger?.tError(
-                     tag('deepClean'),
-                     `undefined found in array key ${name}.${k}, replacing array with no undefined...`,
-                  );
-                  obj[k] = newAry;
-               }
+         // includes also detects sparse holes. Allocate only when filtering is needed.
+         if (Array.isArray(d) && d.includes(undefined)) {
+            if (options.throwNullish) {
+               throw new Error(
+                  `undefined found in array key ${name}.${k}.}`,
+               );
+            } else {
+               const newAry = d.filter((e: unknown) => e !== undefined);
+               logger?.tError(
+                  tag('deepClean'),
+                  `undefined found in array key ${name}.${k}, replacing array with no undefined...`,
+               );
+               obj[k] = newAry;
             }
          }
+         // Preserve cleanup of the original array after replacing the parent's reference.
          deepClean(
             // deno-lint-ignore ban-types
             d as {},
             Array.isArray(obj) ? `${name}[${k}]` : `${name}.${k}`,
             options,
          );
-      }
 
-      // remove unnecessary empty array/object property if exist and not part of schema
-      if ((Array.isArray(d) && !d.length) || JSON.stringify(d) === '{}') {
-         delete obj[k];
-         continue;
+         // remove unnecessary empty array/object property if exist and not part of schema
+         if (Array.isArray(d) ? !d.length : isEmptyJsonObject(d)) {
+            delete obj[k];
+         }
       }
    }
 }

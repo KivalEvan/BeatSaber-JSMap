@@ -70,14 +70,13 @@ export function loadBeatmap<
       );
    }
 
-   const optD = (typeof version !== 'number' ? version : options) ?? options ?? {};
    const opt: Required<ILoadOptions<TFileType, TVersion, TWrapper, TSerial>> = {
-      forceConvert: optD.forceConvert ?? defaultOptions.forceConvert,
-      customDataOwnership: optD.customDataOwnership ?? defaultOptions.customDataOwnership,
-      schemaCheck: { ...defaultOptions.schemaCheck, ...optD.schemaCheck },
-      sort: optD.sort ?? defaultOptions.sort,
-      preprocess: optD.preprocess ?? defaultOptions.preprocess as any,
-      postprocess: optD.postprocess ?? defaultOptions.postprocess as any,
+      forceConvert: options.forceConvert ?? defaultOptions.forceConvert,
+      customDataOwnership: options.customDataOwnership ?? defaultOptions.customDataOwnership,
+      schemaCheck: { ...defaultOptions.schemaCheck, ...options.schemaCheck },
+      sort: options.sort ?? defaultOptions.sort,
+      preprocess: options.preprocess ?? defaultOptions.preprocess as any,
+      postprocess: options.postprocess ?? defaultOptions.postprocess as any,
    };
 
    const [pretransformer, ...preprocesses] = opt.preprocess;

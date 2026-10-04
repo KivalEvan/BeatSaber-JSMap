@@ -51,6 +51,8 @@ export const lightshowOptimizeMap: OptimizeMap<'lightshow'> = {
  * @param version The implied map format of the beatmap file.
  * @param data The serial contents of the beatmap file.
  * @param options The options supplied to the optimizer.
+ * v3/v4 data objects are replaced by default, so external references become stale.
+ * Set `fastMode: false` to retain references to those data objects.
  */
 export function optimizeBeatmap<
    TFileType extends BeatmapFileType,
@@ -62,6 +64,15 @@ export function optimizeBeatmap<
    data: TSerial,
    options: IOptimizeOptions,
 ): void {
+   const optimize = resolveBeatmapOptimizer(type, version);
+   if (optimize !== null) optimize(data as any, options);
+}
+
+/** @internal Resolve once so saving can retain custom optimizer overrides. */
+export function resolveBeatmapOptimizer(
+   type: BeatmapFileType,
+   version: InferBeatmapVersion<BeatmapFileType>,
+): ((data: any, options: IOptimizeOptions) => void) | null {
    const logger = getLogger();
 
    logger?.tInfo(
@@ -71,19 +82,17 @@ export function optimizeBeatmap<
 
    switch (type) {
       case 'info': {
-         const optimize = infoOptimizeMap[version as InferBeatmapVersion<'info'>];
-         return optimize(data as any, options);
+         return infoOptimizeMap[version as InferBeatmapVersion<'info'>];
       }
       case 'difficulty': {
-         const optimize = difficultyOptimizeMap[version as InferBeatmapVersion<'difficulty'>];
-         return optimize(data as any, options);
+         return difficultyOptimizeMap[version as InferBeatmapVersion<'difficulty'>];
       }
       case 'lightshow': {
-         const optimize = lightshowOptimizeMap[version as InferBeatmapVersion<'lightshow'>];
-         return optimize(data as any, options);
+         return lightshowOptimizeMap[version as InferBeatmapVersion<'lightshow'>];
       }
       default: {
          logger?.tWarn(tag(type), `No optimize map found. Skipping optimization step.`);
+         return null;
       }
    }
 }

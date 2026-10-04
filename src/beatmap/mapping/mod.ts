@@ -15,6 +15,17 @@ export * from './types/mod.ts';
 export * from './compatibility.ts';
 export * from './converter.ts';
 export * from './deserialize.ts';
-export * from './optimizer.ts';
-export * from './serialize.ts';
+export {
+   difficultyOptimizeMap,
+   infoOptimizeMap,
+   lightshowOptimizeMap,
+   optimizeBeatmap,
+} from './optimizer.ts';
+export {
+   audioDataSerializerMap,
+   difficultySerializerMap,
+   infoSerializerMap,
+   lightshowSerializerMap,
+   serializeBeatmap,
+} from './serialize.ts';
 export * from './validator.ts';

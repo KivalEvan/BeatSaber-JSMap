@@ -1,3 +1,4 @@
+import { compactData, sharedData } from '../../../helpers/_compact.ts';
 import { round } from '../../../../utils/math/helpers.ts';
 import type { IDifficulty } from '../types/difficulty.ts';
 import type { IOptimizeOptions } from '../../../mapping/types/optimize.ts';
@@ -11,6 +12,7 @@ export function optimizeDifficulty(
    data: IDifficulty,
    options: IOptimizeOptions,
 ) {
+   const compact = options.fastMode ?? true;
    if (options.deduplicate) {
       const [newFloatFxEvents, remapFloatFxEventsIdx] = remapDedupe(
          data._fxEventsCollection!._fl!,
@@ -28,6 +30,8 @@ export function optimizeDifficulty(
       data._fxEventsCollection!._fl = newFloatFxEvents;
    }
 
+   const shared = compact ? sharedData(data) : null;
+
    // deno-lint-ignore no-explicit-any
    const d = data as Record<string, any>;
    for (let i1 = 0; i1 < d.bpmEvents!.length; i1++) {
@@ -37,6 +41,10 @@ export function optimizeDifficulty(
          `difficulty.bpmEvents[${i1}].customData`,
          options,
       );
+      if (compact && !shared!.has(o1)) {
+         d.bpmEvents[i1] = compactData(o1, options);
+         continue;
+      }
       if (isEmpty(o1.customData!)) {
          delete o1.customData;
       }
@@ -53,6 +61,10 @@ export function optimizeDifficulty(
          `difficulty.rotationEvents[${i1}].customData`,
          options,
       );
+      if (compact && !shared!.has(o1)) {
+         d.rotationEvents[i1] = compactData(o1, options);
+         continue;
+      }
       if (isEmpty(o1.customData!)) {
          delete o1.customData;
       }
@@ -68,6 +80,10 @@ export function optimizeDifficulty(
          `difficulty.colorNotes[${i1}].customData`,
          options,
       );
+      if (compact && !shared!.has(o1)) {
+         d.colorNotes[i1] = compactData(o1, options);
+         continue;
+      }
       if (isEmpty(o1.customData!)) {
          delete o1.customData;
       }
@@ -83,6 +99,10 @@ export function optimizeDifficulty(
          `difficulty.bombNotes[${i1}].customData`,
          options,
       );
+      if (compact && !shared!.has(o1)) {
+         d.bombNotes[i1] = compactData(o1, options);
+         continue;
+      }
       if (isEmpty(o1.customData!)) {
          delete o1.customData;
       }
@@ -99,6 +119,10 @@ export function optimizeDifficulty(
          `difficulty.obstacles[${i1}].customData`,
          options,
       );
+      if (compact && !shared!.has(o1)) {
+         d.obstacles[i1] = compactData(o1, options);
+         continue;
+      }
       if (isEmpty(o1.customData!)) {
          delete o1.customData;
       }
@@ -117,6 +141,10 @@ export function optimizeDifficulty(
          `difficulty.sliders[${i1}].customData`,
          options,
       );
+      if (compact && !shared!.has(o1)) {
+         d.sliders[i1] = compactData(o1, options);
+         continue;
+      }
       if (isEmpty(o1.customData!)) {
          delete o1.customData;
       }
@@ -134,6 +162,10 @@ export function optimizeDifficulty(
          `difficulty.burstSliders[${i1}].customData`,
          options,
       );
+      if (compact && !shared!.has(o1)) {
+         d.burstSliders[i1] = compactData(o1, options);
+         continue;
+      }
       if (isEmpty(o1.customData!)) {
          delete o1.customData;
       }
@@ -149,6 +181,10 @@ export function optimizeDifficulty(
          `difficulty.waypoints[${i1}].customData`,
          options,
       );
+      if (compact && !shared!.has(o1)) {
+         d.waypoints[i1] = compactData(o1, options);
+         continue;
+      }
       if (isEmpty(o1.customData!)) {
          delete o1.customData;
       }
@@ -165,6 +201,10 @@ export function optimizeDifficulty(
          `difficulty.basicBeatmapEvents[${i1}].customData`,
          options,
       );
+      if (compact && !shared!.has(o1)) {
+         d.basicBeatmapEvents[i1] = compactData(o1, options);
+         continue;
+      }
       if (isEmpty(o1.customData!)) {
          delete o1.customData;
       }
@@ -180,6 +220,10 @@ export function optimizeDifficulty(
          `difficulty.colorBoostBeatmapEvents[${i1}].customData`,
          options,
       );
+      if (compact && !shared!.has(o1)) {
+         d.colorBoostBeatmapEvents[i1] = compactData(o1, options, true);
+         continue;
+      }
       if (isEmpty(o1.customData!)) {
          delete o1.customData;
       }
@@ -210,6 +254,10 @@ export function optimizeDifficulty(
                `difficulty.lightColorEventBoxGroups[${i1}].e[${i2}].e[${i3}].customData`,
                options,
             );
+            if (compact && !shared!.has(o3)) {
+               o2.e[i3] = compactData(o3, options);
+               continue;
+            }
             if (isEmpty(o3.customData!)) {
                delete o3.customData;
             }
@@ -220,15 +268,23 @@ export function optimizeDifficulty(
             `difficulty.lightRotationEventBoxGroups[${i2}].e[${i2}].customData`,
             options,
          );
-         if (isEmpty(o2.f.customData!)) {
-            delete o2.f.customData;
+         if (compact && !shared!.has(o2.f)) {
+            o2.f = compactData(o2.f, options);
+         } else {
+            if (isEmpty(o2.f.customData!)) {
+               delete o2.f.customData;
+            }
+            if (options.purgeZeros) purgeZeros(o2.f);
          }
-         if (options.purgeZeros) purgeZeros(o2.f);
          deepClean(
             o2.customData!,
             `difficulty.lightColorEventBoxGroups[${i1}].e[${i2}].customData`,
             options,
          );
+         if (compact && !shared!.has(o2)) {
+            o1.e[i2] = compactData(o2, options);
+            continue;
+         }
          if (isEmpty(o2.customData!)) {
             delete o2.customData;
          }
@@ -239,6 +295,10 @@ export function optimizeDifficulty(
          `difficulty.lightColorEventBoxGroups[${i1}].customData`,
          options,
       );
+      if (compact && !shared!.has(o1)) {
+         d.lightColorEventBoxGroups[i1] = compactData(o1, options);
+         continue;
+      }
       if (isEmpty(o1.customData!)) {
          delete o1.customData;
       }
@@ -267,6 +327,10 @@ export function optimizeDifficulty(
                `difficulty.lightRotationEventBoxGroups[${i3}].e[${i2}].l[${i3}].customData`,
                options,
             );
+            if (compact && !shared!.has(o3)) {
+               o2.l[i3] = compactData(o3, options);
+               continue;
+            }
             if (isEmpty(o3.customData!)) {
                delete o3.customData;
             }
@@ -277,15 +341,23 @@ export function optimizeDifficulty(
             `difficulty.lightRotationEventBoxGroups[${i2}].e[${i2}].customData`,
             options,
          );
-         if (isEmpty(o2.f.customData!)) {
-            delete o2.f.customData;
+         if (compact && !shared!.has(o2.f)) {
+            o2.f = compactData(o2.f, options);
+         } else {
+            if (isEmpty(o2.f.customData!)) {
+               delete o2.f.customData;
+            }
+            if (options.purgeZeros) purgeZeros(o2.f);
          }
-         if (options.purgeZeros) purgeZeros(o2.f);
          deepClean(
             o2.customData!,
             `difficulty.lightRotationEventBoxGroups[${i2}].e[${i2}].customData`,
             options,
          );
+         if (compact && !shared!.has(o2)) {
+            o1.e[i2] = compactData(o2, options);
+            continue;
+         }
          if (isEmpty(o2.customData!)) {
             delete o2.customData;
          }
@@ -296,6 +368,10 @@ export function optimizeDifficulty(
          `difficulty.lightRotationEventBoxGroups[${i1}].customData`,
          options,
       );
+      if (compact && !shared!.has(o1)) {
+         d.lightRotationEventBoxGroups[i1] = compactData(o1, options);
+         continue;
+      }
       if (isEmpty(o1.customData!)) {
          delete o1.customData;
       }
@@ -324,6 +400,10 @@ export function optimizeDifficulty(
                `difficulty.lightTranslationEventBoxGroups[${i1}].e[${i2}].l[${i3}].customData`,
                options,
             );
+            if (compact && !shared!.has(o3)) {
+               o2.l[i3] = compactData(o3, options);
+               continue;
+            }
             if (isEmpty(o3.customData!)) {
                delete o3.customData;
             }
@@ -334,15 +414,23 @@ export function optimizeDifficulty(
             `difficulty.lightRotationEventBoxGroups[${i2}].e[${i2}].customData`,
             options,
          );
-         if (isEmpty(o2.f.customData!)) {
-            delete o2.f.customData;
+         if (compact && !shared!.has(o2.f)) {
+            o2.f = compactData(o2.f, options);
+         } else {
+            if (isEmpty(o2.f.customData!)) {
+               delete o2.f.customData;
+            }
+            if (options.purgeZeros) purgeZeros(o2.f);
          }
-         if (options.purgeZeros) purgeZeros(o2.f);
          deepClean(
             o2.customData!,
             `difficulty.lightTranslationEventBoxGroups[${i1}].e[${i2}].customData`,
             options,
          );
+         if (compact && !shared!.has(o2)) {
+            o1.e[i2] = compactData(o2, options);
+            continue;
+         }
          if (isEmpty(o2.customData!)) {
             delete o2.customData;
          }
@@ -353,6 +441,10 @@ export function optimizeDifficulty(
          `difficulty.lightTranslationEventBoxGroups[${i1}].customData`,
          options,
       );
+      if (compact && !shared!.has(o1)) {
+         d.lightTranslationEventBoxGroups[i1] = compactData(o1, options);
+         continue;
+      }
       if (isEmpty(o1.customData!)) {
          delete o1.customData;
       }
@@ -375,15 +467,23 @@ export function optimizeDifficulty(
             `difficulty.lightRotationEventBoxGroups[${i2}].e[${i2}].customData`,
             options,
          );
-         if (isEmpty(o2.f.customData!)) {
-            delete o2.f.customData;
+         if (compact && !shared!.has(o2.f)) {
+            o2.f = compactData(o2.f, options);
+         } else {
+            if (isEmpty(o2.f.customData!)) {
+               delete o2.f.customData;
+            }
+            if (options.purgeZeros) purgeZeros(o2.f);
          }
-         if (options.purgeZeros) purgeZeros(o2.f);
          deepClean(
             o2.customData!,
             `difficulty.vfxEventBoxGroups[${i1}].e[${i2}].customData`,
             options,
          );
+         if (compact && !shared!.has(o2)) {
+            o1.e[i2] = compactData(o2, options);
+            continue;
+         }
          if (isEmpty(o2.customData!)) {
             delete o2.customData;
          }
@@ -394,6 +494,10 @@ export function optimizeDifficulty(
          `difficulty.vfxEventBoxGroups[${i1}].customData`,
          options,
       );
+      if (compact && !shared!.has(o1)) {
+         d.vfxEventBoxGroups[i1] = compactData(o1, options);
+         continue;
+      }
       if (isEmpty(o1.customData!)) {
          delete o1.customData;
       }
@@ -410,6 +514,10 @@ export function optimizeDifficulty(
          `difficulty._fxEventsCollection._fl[${i1}].customData`,
          options,
       );
+      if (compact && !shared!.has(o1)) {
+         d._fxEventsCollection._fl[i1] = compactData(o1, options);
+         continue;
+      }
       if (isEmpty(o1.customData!)) {
          delete o1.customData;
       }
@@ -425,6 +533,10 @@ export function optimizeDifficulty(
          `difficulty._fxEventsCollection._il[${i1}].customData`,
          options,
       );
+      if (compact && !shared!.has(o1)) {
+         d._fxEventsCollection._il[i1] = compactData(o1, options);
+         continue;
+      }
       if (isEmpty(o1.customData!)) {
          delete o1.customData;
       }

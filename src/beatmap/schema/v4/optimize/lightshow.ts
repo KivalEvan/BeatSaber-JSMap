@@ -4,6 +4,7 @@ import type { ILightshow } from '../types/lightshow.ts';
 import { deepClean, purgeZeros, remapDedupe } from '../../../helpers/optimize.ts';
 import { EventBoxType } from '../../shared/types/constants.ts';
 import { isEmpty, stableJsonKey } from '../../../../utils/misc/json.ts';
+import { compactData, sharedData } from '../../../helpers/_compact.ts';
 
 function stableV4DataKey<T extends object>(
    value: T,
@@ -41,6 +42,7 @@ function stableV4DataKey<T extends object>(
  * Optimize v4 `Lightshow` schema data.
  */
 export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
+   const compact = options.fastMode ?? true;
    if (options.deduplicate) {
       const [newBasicEventsData, remapBasicEventsIdx] = remapDedupe(
          data.basicEventsData ?? [],
@@ -171,6 +173,8 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
       data.floatFxEvents = newFloatFxEvents;
    }
 
+   const shared = compact ? sharedData(data) : null;
+
    for (let i = 0; i < data.waypoints!.length; i++) {
       const o = data.waypoints![i];
       if (options.floatTrim) {
@@ -182,6 +186,10 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
          `difficulty.waypoints[${i}].customData`,
          options,
       );
+      if (compact && !shared!.has(o)) {
+         data.waypoints![i] = compactData(o, options);
+         continue;
+      }
       if (isEmpty(o.customData!)) {
          delete o.customData;
       }
@@ -194,6 +202,10 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
          `difficulty.waypointsData[${i}].customData`,
          options,
       );
+      if (compact && !shared!.has(o)) {
+         data.waypointsData![i] = compactData(o, options);
+         continue;
+      }
       if (isEmpty(o.customData!)) {
          delete o.customData;
       }
@@ -209,6 +221,10 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
          `difficulty.basicEvents[${i}].customData`,
          options,
       );
+      if (compact && !shared!.has(o)) {
+         data.basicEvents![i] = compactData(o, options);
+         continue;
+      }
       if (isEmpty(o.customData!)) {
          delete o.customData;
       }
@@ -224,6 +240,10 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
          `difficulty.basicEventsData[${i}].customData`,
          options,
       );
+      if (compact && !shared!.has(o)) {
+         data.basicEventsData![i] = compactData(o, options);
+         continue;
+      }
       if (isEmpty(o.customData!)) {
          delete o.customData;
       }
@@ -268,16 +288,23 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
             `lightshow.eventBoxGroups[${i}].e[${j}].customData`,
             options,
          );
-         if (isEmpty(o2.customData!)) {
-            delete o2.customData;
+         if (compact && !shared!.has(o2)) {
+            o.e![j] = compactData(o2, options);
+         } else {
+            if (isEmpty(o2.customData!)) {
+               delete o2.customData;
+            }
+            if (options.purgeZeros) purgeZeros(o2);
          }
-         if (options.purgeZeros) purgeZeros(o2);
          for (let k = 0; k < o2.l!.length; k++) {
             const o3 = o2.l![k];
             if (options.floatTrim) {
                o3.b = round(o3.b!, options.floatTrim);
             }
-            if (options.purgeZeros) purgeZeros(o3);
+            if (compact && !shared!.has(o3)) {
+               // Event references do not clean customData in ordinary optimization.
+               o2.l![k] = compactData(o3, options, false, false);
+            } else if (options.purgeZeros) purgeZeros(o3);
          }
       }
       deepClean(
@@ -285,6 +312,10 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
          `difficulty.eventBoxGroups[${i}].customData`,
          options,
       );
+      if (compact && !shared!.has(o)) {
+         data.eventBoxGroups![i] = compactData(o, options);
+         continue;
+      }
       if (isEmpty(o.customData!)) {
          delete o.customData;
       }
@@ -300,6 +331,10 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
          `difficulty.indexFilters[${i}].customData`,
          options,
       );
+      if (compact && !shared!.has(o)) {
+         data.indexFilters![i] = compactData(o, options);
+         continue;
+      }
       if (isEmpty(o.customData!)) {
          delete o.customData;
       }
@@ -316,6 +351,10 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
          `difficulty.lightColorEventBoxes[${i}].customData`,
          options,
       );
+      if (compact && !shared!.has(o)) {
+         data.lightColorEventBoxes![i] = compactData(o, options);
+         continue;
+      }
       if (isEmpty(o.customData!)) {
          delete o.customData;
       }
@@ -332,6 +371,10 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
          `difficulty.lightColorEvents[${i}].customData`,
          options,
       );
+      if (compact && !shared!.has(o)) {
+         data.lightColorEvents![i] = compactData(o, options);
+         continue;
+      }
       if (isEmpty(o.customData!)) {
          delete o.customData;
       }
@@ -348,6 +391,10 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
          `difficulty.lightRotationEventBoxes[${i}].customData`,
          options,
       );
+      if (compact && !shared!.has(o)) {
+         data.lightRotationEventBoxes![i] = compactData(o, options);
+         continue;
+      }
       if (isEmpty(o.customData!)) {
          delete o.customData;
       }
@@ -363,6 +410,10 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
          `difficulty.lightRotationEvents[${i}].customData`,
          options,
       );
+      if (compact && !shared!.has(o)) {
+         data.lightRotationEvents![i] = compactData(o, options);
+         continue;
+      }
       if (isEmpty(o.customData!)) {
          delete o.customData;
       }
@@ -379,6 +430,10 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
          `difficulty.lightTranslationEventBoxes[${i}].customData`,
          options,
       );
+      if (compact && !shared!.has(o)) {
+         data.lightTranslationEventBoxes![i] = compactData(o, options);
+         continue;
+      }
       if (isEmpty(o.customData!)) {
          delete o.customData;
       }
@@ -394,6 +449,10 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
          `difficulty.lightTranslationEvents[${i}].customData`,
          options,
       );
+      if (compact && !shared!.has(o)) {
+         data.lightTranslationEvents![i] = compactData(o, options);
+         continue;
+      }
       if (isEmpty(o.customData!)) {
          delete o.customData;
       }
@@ -410,6 +469,10 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
          `difficulty.fxEventBoxes[${i}].customData`,
          options,
       );
+      if (compact && !shared!.has(o)) {
+         data.fxEventBoxes![i] = compactData(o, options);
+         continue;
+      }
       if (isEmpty(o.customData!)) {
          delete o.customData;
       }
@@ -425,6 +488,10 @@ export function optimizeLightshow(data: ILightshow, options: IOptimizeOptions) {
          `difficulty.floatFxEvents[${i}].customData`,
          options,
       );
+      if (compact && !shared!.has(o)) {
+         data.floatFxEvents![i] = compactData(o, options);
+         continue;
+      }
       if (isEmpty(o.customData!)) {
          delete o.customData;
       }
