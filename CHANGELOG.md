@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.1.1 [2026-10-05]
+
+```diff
+* Fixed strict loading of Info 2.1.0 maps without environment names or color scheme
+```
+
 ## 3.1.0 [2026-10-04]
 
 ```diff

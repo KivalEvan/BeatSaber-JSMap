@@ -128,6 +128,14 @@ function checkVersion<
          return addIssue(issue as any);
       }
    }
+   // Versioned optional containers still need version checks for their present children.
+   if (
+      ctx?.metadata.version &&
+      ['optional', 'undefinedable'].includes(unwrapped.type) &&
+      'wrapped' in unwrapped
+   ) {
+      unwrapped = unwrapped.wrapped as TSchema;
+   }
    // for array data, cascade checks to all items
    if (v.isOfType('array', unwrapped) && Array.isArray(input)) {
       const schema = (
@@ -187,7 +195,9 @@ function checkVersion<
 export function entity<
    const TEntries extends InferObjectEntries<Record<string, unknown>>,
 >(
-   resolveVersion: (data: v.InferOutput<v.ObjectSchema<TEntries, undefined>>) => Version,
+   resolveVersion: (
+      data: v.InferOutput<v.ObjectSchema<TEntries, undefined>>,
+   ) => Version,
    entries: TEntries,
 ) {
    return v.pipe(

@@ -48,8 +48,8 @@ export interface IInfo {
    _coverImageFilename: string;
    _environmentName: EnvironmentV2Name | EnvironmentV3Name;
    _allDirectionsEnvironmentName?: Environment360Name;
-   _environmentNames: EnvironmentName[];
-   _colorSchemes: IInfoColorScheme[];
+   _environmentNames?: EnvironmentName[];
+   _colorSchemes?: IInfoColorScheme[];
    /**
     * **Type:** `f32`
     */

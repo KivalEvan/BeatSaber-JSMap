@@ -189,16 +189,25 @@ export function InfoSchema(): v.ObjectSchema<
       _coverImageFilename: field(v.string(), {
          version: '2.0.0',
       }),
-      _environmentName: field(mask<EnvironmentV2Name | EnvironmentV3Name>(v.string()), {
-         version: '2.0.0',
-      }),
-      _allDirectionsEnvironmentName: field(v.optional(mask<Environment360Name>(v.string())), {
-         version: '2.0.0',
-      }),
-      _environmentNames: field(v.array(mask<EnvironmentName>(v.string())), {
-         version: '2.1.0',
-      }),
-      _colorSchemes: field(v.array(InfoColorSchemeSchema()), {
+      _environmentName: field(
+         mask<EnvironmentV2Name | EnvironmentV3Name>(v.string()),
+         {
+            version: '2.0.0',
+         },
+      ),
+      _allDirectionsEnvironmentName: field(
+         v.optional(mask<Environment360Name>(v.string())),
+         {
+            version: '2.0.0',
+         },
+      ),
+      _environmentNames: field(
+         v.optional(v.array(mask<EnvironmentName>(v.string()))),
+         {
+            version: '2.1.0',
+         },
+      ),
+      _colorSchemes: field(v.optional(v.array(InfoColorSchemeSchema())), {
          version: '2.1.0',
       }),
       _difficultyBeatmapSets: field(v.array(InfoSetSchema()), {

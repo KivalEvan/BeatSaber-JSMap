@@ -104,7 +104,9 @@ Deno.test('E2E: Info conversions preserve supported metadata in both directions'
          assertFixtureJson(saved, jsonBoundary(saveInfo(loadedAsV4, 4)), 'Conversion on save');
          const v4Info = loadInfo(saved, 4, { forceConvert: false });
          assertFixtureJson(sharedInfo(v4Info), expected, 'First v4 serialization');
-         const back = loadInfo(jsonBoundary(saveInfo(v4Info, 2)), 2, { forceConvert: false });
+         const back = loadInfo(jsonBoundary(saveInfo(v4Info, 2)), 2, {
+            forceConvert: false,
+         });
          assertFixtureJson(sharedInfo(back), expected, 'v2 round trip');
          assertEquals(JSON.stringify(source), original, 'Do not mutate caller JSON');
       });
@@ -132,9 +134,16 @@ Deno.test('E2E: Info conversions preserve supported metadata in both directions'
       const original = JSON.stringify(source);
       const expected = sharedInfo(loadInfo(source, 2), true);
       assertThrows(() => saveInfo(loadInfo(source, 2), 4), Error, 'Info is not compatible with v4');
-      const saved = jsonBoundary(saveInfo(loadInfo(source, 2), 4, {
-         validate: { compatibility: { enabled: true, throwOn: { incompatibleObject: false } } },
-      }));
+      const saved = jsonBoundary(
+         saveInfo(loadInfo(source, 2), 4, {
+            validate: {
+               compatibility: {
+                  enabled: true,
+                  throwOn: { incompatibleObject: false },
+               },
+            },
+         }),
+      );
       assert(!('_songTimeOffset' in saved));
       assert(!('_shuffle' in saved));
       assert(!('_shufflePeriod' in saved));
@@ -157,7 +166,9 @@ Deno.test('E2E: Info conversions preserve supported metadata in both directions'
       assertFixtureJson(saved, jsonBoundary(saveInfo(loadedAsV2, 2)), 'Conversion on save');
       const v2Info = loadInfo(saved, 2, { forceConvert: false });
       assertFixtureJson(sharedInfo(v2Info), expected, 'First v2 serialization');
-      const back = loadInfo(jsonBoundary(saveInfo(v2Info, 4)), 4, { forceConvert: false });
+      const back = loadInfo(jsonBoundary(saveInfo(v2Info, 4)), 4, {
+         forceConvert: false,
+      });
       assertFixtureJson(sharedInfo(back), expected, 'v4 round trip');
       // v2 has neither an audio duration nor per-difficulty lightshow references.
       assert(source.audio.songDuration > 0);
@@ -173,24 +184,34 @@ Deno.test('E2E: Info conversions preserve supported metadata in both directions'
       source.audio.lufs = -12.5;
       source.difficultyBeatmaps[0].beatmapAuthors.lighters = ['Test Lighter'];
       source.difficultyBeatmaps[1].beatmapAuthors.mappers = ['Test Mapper'];
-      source.colorSchemes = [{
-         colorSchemeName: 'Separate override flags',
-         overrideNotes: false,
-         overrideLights: true,
-         saberAColor: 'FF0000FF',
-         saberBColor: '0000FFFF',
-         environmentColor0: 'FF0000FF',
-         environmentColor1: '0000FFFF',
-         environmentColor0Boost: '00FF00FF',
-         environmentColor1Boost: 'FF00FFFF',
-         obstaclesColor: 'FFFFFFFF',
-      }];
+      source.colorSchemes = [
+         {
+            colorSchemeName: 'Separate override flags',
+            overrideNotes: false,
+            overrideLights: true,
+            saberAColor: 'FF0000FF',
+            saberBColor: '0000FFFF',
+            environmentColor0: 'FF0000FF',
+            environmentColor1: '0000FFFF',
+            environmentColor0Boost: '00FF00FF',
+            environmentColor1Boost: 'FF00FFFF',
+            obstaclesColor: 'FFFFFFFF',
+         },
+      ];
       const original = JSON.stringify(source);
       assertThrows(() => saveInfo(loadInfo(source, 4), 2), Error, 'Info is not compatible with v2');
-      const saved = jsonBoundary(saveInfo(loadInfo(source, 4), 2, {
-         validate: { compatibility: { enabled: true, throwOn: { incompatibleObject: false } } },
-      }));
+      const saved = jsonBoundary(
+         saveInfo(loadInfo(source, 4), 2, {
+            validate: {
+               compatibility: {
+                  enabled: true,
+                  throwOn: { incompatibleObject: false },
+               },
+            },
+         }),
+      );
       assertEquals(saved._levelAuthorName, 'Kival Evan, Test Lighter, Test Mapper');
+      assert(saved._colorSchemes);
       assertEquals(saved._colorSchemes[0].useOverride, true);
       assertEquals(saved._songFilename, source.audio.songFilename);
       assert(!('songPreviewFilename' in saved));
@@ -289,9 +310,16 @@ Deno.test('E2E: Audio conversions preserve all sample and beat-region boundaries
          Error,
          'Audio data is not compatible with v2',
       );
-      const saved = jsonBoundary(saveAudioData(loadAudioData(source, 4), 2, {
-         validate: { compatibility: { enabled: true, throwOn: { incompatibleObject: false } } },
-      }));
+      const saved = jsonBoundary(
+         saveAudioData(loadAudioData(source, 4), 2, {
+            validate: {
+               compatibility: {
+                  enabled: true,
+                  throwOn: { incompatibleObject: false },
+               },
+            },
+         }),
+      );
       assert(!('songChecksum' in saved));
       assert(!('lufsData' in saved));
       const back = jsonBoundary(saveAudioData(loadAudioData(saved, 2), 4));

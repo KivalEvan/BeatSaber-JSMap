@@ -28,7 +28,7 @@ export function optimizeInfo(
       data._songSubName = data._songSubName.trim();
    }
 
-   for (let it = 0; it < data._colorSchemes!.length; it++) {
+   for (let it = 0; it < (data._colorSchemes?.length ?? 0); it++) {
       const cs = data._colorSchemes[it];
       deepClean(cs.colorScheme, `info._colorSchemes[${it}].colorScheme`, options);
    }
