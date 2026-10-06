@@ -46,46 +46,49 @@ interface IFieldMetadata {
    readonly version?: Version;
 }
 
-type VersionCheckContext<T extends v.GenericSchema> = {
-   dataset: v.OutputDataset<v.InferInput<T>, v.BaseIssue<unknown>>;
-   addIssue: (
-      info: Parameters<
-         Parameters<Parameters<typeof v.rawCheck>[0]>[0]['addIssue']
-      >[0],
-   ) => void;
-};
-function checkVersion<
-   const TSchema extends v.GenericSchema,
-   const TItems extends (
-      | v.GenericPipeItem<v.InferInput<TSchema>, v.InferOutput<TSchema>>
-      | v.MetadataAction<v.InferInput<TSchema>, Readonly<IFieldMetadata>>
-   )[],
->(
-   schema: TSchema | v.SchemaWithPipe<[TSchema, ...TItems]>,
-   {
-      version,
-      dataset,
-      addIssue,
-   }: VersionCheckContext<TSchema> & IFieldSchemaOptions,
-) {
+type AddVersionIssue = (
+   info: Parameters<
+      Parameters<Parameters<typeof v.rawCheck>[0]>[0]['addIssue']
+   >[0],
+) => void;
+type VersionCheck = (
+   input: unknown,
+   addIssue: AddVersionIssue,
+) => boolean | void;
+
+function createVersionCheck(
+   schema: v.GenericSchema,
+   version: Version,
+   comparisons: Map<Version, -1 | 0 | 1>,
+   validated = false,
+): VersionCheck | undefined {
    const logger = getLogger();
 
-   const [base, ...pipeline] = 'pipe' in schema ? schema.pipe : [schema];
-   let unwrapped = base;
+   const [base, ...pipeline] = 'pipe' in schema
+      ? (
+         schema as v.SchemaWithPipe<
+            [v.GenericSchema, ...v.GenericPipeItem[]]
+         >
+      ).pipe
+      : [schema];
+   let unwrapped: v.GenericSchema = base;
    // unwrap the schema from its optionalized parent
    if ('wrapped' in unwrapped) {
       unwrapped = v.unwrap(
-         unwrapped as unknown as v.OptionalSchema<
-            TSchema,
-            v.Default<TSchema, undefined>
-         >,
+         unwrapped as v.OptionalSchema<v.GenericSchema, undefined>,
       );
    }
    // extract the metadata from the pipeline to get the required context for versioning checks
-   const ctx = pipeline.find((x) => x.kind === 'metadata') as v.MetadataAction<
-      v.InferInput<TSchema>,
-      Readonly<IFieldMetadata>
-   >;
+   let ctx: v.MetadataAction<unknown, Readonly<IFieldMetadata>> | undefined;
+   for (let i = 0; i < pipeline.length; i++) {
+      if (pipeline[i].kind === 'metadata') {
+         ctx = pipeline[i] as v.MetadataAction<
+            unknown,
+            Readonly<IFieldMetadata>
+         >;
+         break;
+      }
+   }
 
    logger?.tDebug(
       ['schema', 'checkVersion'],
@@ -94,100 +97,123 @@ function checkVersion<
       }\n  dataset version: \t${version}`,
    );
 
-   const input = dataset.value;
-
-   if (ctx && ctx.metadata.version) {
-      // if metadata is present, check for version mismatches on existing fields
+   const isOptional = unwrapped.type === 'optional' || unwrapped.type === 'undefinedable';
+   let checkValue: VersionCheck | undefined;
+   if (ctx?.metadata.version) {
       const { version: schemaVersion } = ctx.metadata;
-      const comparator = compareVersion(version, schemaVersion);
-      // if the field has an unsupported version and a value is present...
-      if (comparator < 0 && input !== undefined) {
-         return addIssue({
-            message: 'Mismatched version for field',
-            input: input,
-            received: version,
-            expected: schemaVersion,
-         });
+      let comparator = comparisons.get(schemaVersion);
+      if (comparator === undefined) {
+         comparator = compareVersion(version, schemaVersion);
+         comparisons.set(schemaVersion, comparator);
       }
-      // if the field has a supported version and a value is missing for the field...
-      const isOptionalizedSchema = ['optional', 'undefinedable'].includes(
-         unwrapped.type,
-      );
-      if (comparator >= 0 && input === undefined && !isOptionalizedSchema) {
-         return addIssue({
-            message: 'Missing required value for versioned field',
-            input: input,
-            received: typeof input,
-            expected: unwrapped.type,
-         });
+      if (comparator < 0) {
+         return (input, addIssue) => {
+            if (input !== undefined) {
+               addIssue({
+                  message: 'Mismatched version for field',
+                  input,
+                  received: version,
+                  expected: schemaVersion,
+               });
+               return true;
+            }
+         };
+      }
+      if (!isOptional) {
+         const expected = unwrapped.type;
+         checkValue = (input, addIssue) => {
+            if (input === undefined) {
+               addIssue({
+                  message: 'Missing required value for versioned field',
+                  input,
+                  received: typeof input,
+                  expected,
+               });
+               return true;
+            }
+         };
       }
    } else {
-      // if metadata is not present, skip the version checks entirely and run the original validation flow
-      const { issues } = v.safeParse(unwrapped, dataset.value);
-      for (const issue of issues ?? []) {
-         return addIssue(issue as any);
-      }
+      // A successful parent reparse already validated present child values.
+      // Absence still needs checking because field() optionalizes required fields.
+      // Without a parent reparse, preserve validation and its early return for
+      // action issues or transformed values in the initially typed dataset.
+      const original = unwrapped;
+      checkValue = (input, addIssue) => {
+         if (validated && input !== undefined) return;
+         const { issues } = v.safeParse(original, input);
+         if (issues?.length) {
+            addIssue(issues[0] as any);
+            return true;
+         }
+      };
    }
    // Versioned optional containers still need version checks for their present children.
-   if (
-      ctx?.metadata.version &&
-      ['optional', 'undefinedable'].includes(unwrapped.type) &&
-      'wrapped' in unwrapped
-   ) {
-      unwrapped = unwrapped.wrapped as TSchema;
+   if (ctx?.metadata.version && isOptional && 'wrapped' in unwrapped) {
+      unwrapped = unwrapped.wrapped as v.GenericSchema;
    }
-   // for array data, cascade checks to all items
-   if (v.isOfType('array', unwrapped) && Array.isArray(input)) {
-      const schema = (
-         unwrapped as unknown as v.ArraySchema<v.GenericSchema, undefined>
-      ).item;
-      for (let i = 0; i < input.length; i++) {
-         const value = input[i];
-         checkVersion(schema, {
-            version,
-            addIssue: (info) => {
-               const path: v.IssuePathItem = {
-                  type: 'array',
-                  origin: 'value',
-                  input: input as any,
-                  key: i,
-                  value: value,
-               };
-               return addIssue({
+   const childrenValidated = validated || !ctx?.metadata.version;
+   if (unwrapped.type === 'array') {
+      const { item } = unwrapped as v.ArraySchema<v.GenericSchema, undefined>;
+      const checkItem = createVersionCheck(
+         item,
+         version,
+         comparisons,
+         childrenValidated,
+      );
+      if (!checkItem) return checkValue;
+      return (input, addIssue) => {
+         if (checkValue?.(input, addIssue)) return;
+         if (!Array.isArray(input)) return;
+         for (let i = 0; i < input.length; i++) {
+            const value = input[i];
+            checkItem(value, (info) => {
+               addIssue({
                   ...info,
-                  path: [path, ...(info?.path ?? [])],
+                  path: [
+                     { type: 'array', origin: 'value', input, key: i, value },
+                     ...(info?.path ?? []),
+                  ],
                });
-            },
-            dataset: { ...dataset, value: value },
-         });
-      }
+            });
+         }
+      };
    }
-   // for object data, cascade checks to all key/value entries
-   if (v.isOfType('object', unwrapped) && isRecord(input)) {
-      const entries = (
-         unwrapped as unknown as v.ObjectSchema<v.ObjectEntries, undefined>
-      ).entries;
+   if (unwrapped.type === 'object') {
+      const { entries } = unwrapped as v.ObjectSchema<
+         v.ObjectEntries,
+         undefined
+      >;
+      const checks: [string, VersionCheck][] = [];
       for (const key in entries) {
-         const value = input[key];
-         checkVersion(entries[key], {
+         const check = createVersionCheck(
+            entries[key],
             version,
-            addIssue: (info) => {
-               const path: v.IssuePathItem = {
-                  type: 'object',
-                  origin: 'value',
-                  input: input,
-                  key: key,
-                  value: value,
-               };
-               return addIssue({
-                  ...info,
-                  path: [path, ...(info?.path ?? [])],
-               });
-            },
-            dataset: { ...dataset, value: value },
-         });
+            comparisons,
+            childrenValidated,
+         );
+         if (check) checks.push([key, check]);
       }
+      if (!checks.length) return checkValue;
+      return (input, addIssue) => {
+         if (checkValue?.(input, addIssue)) return;
+         if (!isRecord(input)) return;
+         for (let i = 0; i < checks.length; i++) {
+            const [key, check] = checks[i];
+            const value = input[key];
+            check(value, (info) => {
+               addIssue({
+                  ...info,
+                  path: [
+                     { type: 'object', origin: 'value', input, key, value },
+                     ...(info?.path ?? []),
+                  ],
+               });
+            });
+         }
+      };
    }
+   return checkValue;
 }
 
 /** Helper function to create an "entity" (object-like) schema, which recursively performs version checks on all nested entries. */
@@ -209,25 +235,30 @@ export function entity<
          if (!dataset.typed) return;
          // pull the entity version directly from the entity data using a resolver
          const version = resolveVersion(dataset.value);
+         const comparisons = new Map<Version, -1 | 0 | 1>();
+         // Resolve checks once per schema, not once per array item. Supported
+         // optional subtrees need no second traversal after object validation.
          // run version checks for all key/value entries defined within the schema
          for (const key in entries) {
-            const value = dataset.value[key as keyof typeof dataset.value];
-            checkVersion(entries[key], {
+            const check = createVersionCheck(
+               entries[key],
                version,
-               dataset: { ...dataset, value },
-               addIssue: (info) => {
-                  const path: v.IssuePathItem = {
-                     type: 'object',
-                     origin: 'value',
-                     input: dataset.value,
-                     key: key,
-                     value: value,
-                  };
-                  return addIssue({
-                     ...info,
-                     path: [path, ...(info?.path ?? [])],
-                  });
-               },
+               comparisons,
+            );
+            if (!check) continue;
+            const value = dataset.value[key as keyof typeof dataset.value];
+            check(value, (info) => {
+               const path: v.IssuePathItem = {
+                  type: 'object',
+                  origin: 'value',
+                  input: dataset.value,
+                  key: key,
+                  value: value,
+               };
+               return addIssue({
+                  ...info,
+                  path: [path, ...(info?.path ?? [])],
+               });
             });
          }
       }),

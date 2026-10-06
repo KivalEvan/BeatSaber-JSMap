@@ -7,8 +7,8 @@ import { isRecord } from '../../utils/misc/json.ts';
 import { compareVersion } from '../helpers/version.ts';
 
 function tag(vendor?: string): string[] {
-   let tags = ['helpers', 'schemaCheck'];
-   if (vendor) tags = tags.concat(vendor);
+   const tags = ['helpers', 'schemaCheck'];
+   if (vendor) tags.push(vendor);
    return tags;
 }
 
@@ -41,11 +41,15 @@ interface IVendorSchemaIssue extends StandardSchemaV1.Issue {
  *
  * @returns `undefined` for unknown shapes.
  */
-function classifyIssue(issue: StandardSchemaV1.Issue): ThrowCategory | undefined {
+function classifyIssue(
+   issue: StandardSchemaV1.Issue,
+): ThrowCategory | undefined {
    const vendor = issue as IVendorSchemaIssue;
    const message = issue.message ?? '';
 
-   if (vendor.type === 'strict_object' && vendor.expected === 'never') return 'unused';
+   if (vendor.type === 'strict_object' && vendor.expected === 'never') {
+      return 'unused';
+   }
    if (/^Invalid integer/.test(message)) return 'notInt';
    if (
       (vendor.type === 'min_value' && vendor.requirement === 0) ||
@@ -56,15 +60,21 @@ function classifyIssue(issue: StandardSchemaV1.Issue): ThrowCategory | undefined
    if (message.includes('Missing required value')) return 'missing';
    if (message.includes('Mismatched version')) return 'wrongType';
 
-   if (
-      issue.path?.some((segment) => (
-         typeof segment === 'object' &&
-         segment !== null &&
-         'origin' in segment &&
-         segment.origin === 'key'
-      ))
-   ) {
-      return 'missing';
+   const issuePath = issue.path;
+   if (issuePath) {
+      const pathLength = issuePath.length;
+      for (let i = 0; i < pathLength; i++) {
+         if (!(i in issuePath)) continue;
+         const segment = issuePath[i];
+         if (
+            typeof segment === 'object' &&
+            segment !== null &&
+            'origin' in segment &&
+            segment.origin === 'key'
+         ) {
+            return 'missing';
+         }
+      }
    }
 
    const inputIsNullish = 'input' in vendor &&
@@ -86,19 +96,33 @@ function handleError(
 ): void {
    const logger = getLogger();
 
-   const path = issue.path
-      ?.map((segment) => {
-         if (typeof segment === 'object' && 'key' in segment) {
-            return segment.key;
+   let path: string | undefined;
+   const issuePath = issue.path;
+   if (issuePath) {
+      const pathLength = issuePath.length;
+      const keys = new Array<PropertyKey>(pathLength);
+      for (let i = 0; i < pathLength; i++) {
+         if (!(i in issuePath)) continue;
+         const segment = issuePath[i];
+         keys[i] = typeof segment === 'object' && 'key' in segment ? segment.key : segment;
+      }
+      const segments = new Array<PropertyKey>(pathLength);
+      for (let i = 0; i < pathLength; i++) {
+         if (!(i in keys)) continue;
+         const key = keys[i];
+         if (i === 0) segments[i] = key;
+         else if (typeof key === 'number') segments[i] = `[${key}]`;
+         else segments[i] = `.${key.toString()}`;
+      }
+      path = '';
+      for (let i = 0; i < pathLength; i++) {
+         const segment = segments[i];
+         if (typeof segment === 'symbol') {
+            throw new TypeError('Cannot convert a Symbol value to a string');
          }
-         return segment;
-      })
-      .map((x, i) => {
-         if (i === 0) return x;
-         if (typeof x === 'number') return `[${x}]`;
-         return `.${x.toString()}`;
-      })
-      .join('');
+         if (segment !== undefined && segment !== null) path += `${segment}`;
+      }
+   }
    if (options.doThrow) {
       throw new Error(`${issue.message}${path ? ` at "${path}"` : ''}`);
    } else {
@@ -143,9 +167,21 @@ export function schemaCheck<
             if (i in result.issues) buffer.push(result.issues[i]);
          }
          // Unknown issue shapes throw if any issue category is enabled.
-         const anyThrow = (
-            ['unused', 'missing', 'nullish', 'wrongType', 'notInt', 'notUnsigned'] as const
-         ).some((category) => throwOn[category]);
+         const categories = [
+            'unused',
+            'missing',
+            'nullish',
+            'wrongType',
+            'notInt',
+            'notUnsigned',
+         ] as const;
+         let anyThrow = false;
+         for (let i = 0; i < categories.length; i++) {
+            if (throwOn[categories[i]]) {
+               anyThrow = true;
+               break;
+            }
+         }
          for (const issue of buffer) {
             const category = classifyIssue(issue);
             handleError(
@@ -275,17 +311,26 @@ export function schemaCheck<
             );
             continue;
          }
-         if (
-            !d.every(
-               (n: unknown) =>
+         let allValid = true;
+         const arrayLength = d.length;
+         for (let j = 0; j < arrayLength; j++) {
+            if (!(j in d)) continue;
+            const n: unknown = d[j];
+            if (
+               !(
                   typeof n === ch.type ||
                   (ch.type === 'number' &&
                      typeof n === 'number' &&
                      (isNaN(n) ||
                         ((ch.int ? n % 1 !== 0 : true) &&
-                           (ch.unsigned ? n < 0 : true)))),
-            )
-         ) {
+                           (ch.unsigned ? n < 0 : true))))
+               )
+            ) {
+               allValid = false;
+               break;
+            }
+         }
+         if (!allValid) {
             handleError(
                { message: `${key} is not ${ch.type} in object ${label}!` },
                {

@@ -61,13 +61,14 @@ export function parseMajorVersion(version: string): number | undefined {
       return undefined;
    }
    const parts = version.split('.');
-   if (
-      parts.some((part) => {
-         const significantDigits = part.replace(/^0+/, '') || '0';
-         return significantDigits.length > 10 || Number(significantDigits) > maxPartValue;
-      })
-   ) {
-      return undefined;
+   for (let i = 0; i < parts.length; i++) {
+      const significantDigits = parts[i].replace(/^0+/, '') || '0';
+      if (
+         significantDigits.length > 10 ||
+         Number(significantDigits) > maxPartValue
+      ) {
+         return undefined;
+      }
    }
    return parseInt(parts[0], 10);
 }
@@ -110,13 +111,15 @@ export function compareVersion(
    current: Version,
    compareTo: Version,
 ): -1 | 0 | 1 {
-   const verCurrent = current.split('.').map((el) => parseInt(el));
-   const verCompareTo = compareTo.split('.').map((el) => parseInt(el));
-   for (const num in verCurrent) {
-      if (verCurrent[num] < verCompareTo[num]) {
+   const verCurrent = current.split('.');
+   const verCompareTo = compareTo.split('.');
+   for (let i = 0; i < verCurrent.length; i++) {
+      const currentPart = parseInt(verCurrent[i]);
+      const comparePart = parseInt(verCompareTo[i]);
+      if (currentPart < comparePart) {
          return -1;
       }
-      if (verCurrent[num] > verCompareTo[num]) {
+      if (currentPart > comparePart) {
          return 1;
       }
    }

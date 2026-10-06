@@ -1,6 +1,6 @@
 {
    "name": "@kvl/bsmap",
-   "version": "3.1.1",
+   "version": "3.1.2",
    "license": "MIT",
    "exports": {
       ".": "./src/mod.ts",
@@ -38,7 +38,7 @@
    },
    "imports": {
       "@standard-schema/spec": "jsr:@standard-schema/spec@^1.1.0",
-      "valibot": "jsr:@valibot/valibot@^1.4.1"
+      "valibot": "jsr:@valibot/valibot@^1.5.0"
    },
    "exclude": [".git", "npm", "coverage"],
    "lock": false,

@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.1.2 [2026-10-06]
+
+```diff
+* Reduced repeated schema validation work while preserving nested version checks
+```
+
 ## 3.1.1 [2026-10-05]
 
 ```diff
