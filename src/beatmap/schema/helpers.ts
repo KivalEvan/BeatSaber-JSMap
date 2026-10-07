@@ -56,6 +56,55 @@ type VersionCheck = (
    addIssue: AddVersionIssue,
 ) => boolean | void;
 
+// Only reuse issue-free output from built-in schemas whose output can be
+// validated again unchanged. Transforms, defaults, fallbacks and callbacks
+// keep the reparse path, including its first-issue ordering.
+function canReuseParsedValue(schema: v.GenericSchema): boolean {
+   if ('fallback' in schema) return false;
+   if ('pipe' in schema) {
+      const pipeline = (schema as v.SchemaWithPipe<[v.GenericSchema, ...v.GenericPipeItem[]]>).pipe;
+      for (let i = 1; i < pipeline.length; i++) {
+         const item = pipeline[i];
+         if (item.reference === v.metadata || item.reference === v.integer) continue;
+         if (item.reference !== v.minValue && item.reference !== v.maxValue) return false;
+         const base = pipeline[0].reference === v.optional
+            ? (pipeline[0] as v.OptionalSchema<v.GenericSchema, undefined>).wrapped
+            : pipeline[0];
+         if (
+            base.reference !== v.number ||
+            typeof (item as v.MinValueAction<number, number, undefined>).requirement !== 'number'
+         ) return false;
+      }
+      return canReuseParsedValue(pipeline[0]);
+   }
+   if (schema.reference === v.optional || schema.reference === v.undefinedable) {
+      const optional = schema as v.OptionalSchema<v.GenericSchema, undefined>;
+      return optional.default === undefined && canReuseParsedValue(optional.wrapped);
+   }
+   if (schema.reference === v.array) {
+      return canReuseParsedValue((schema as v.ArraySchema<v.GenericSchema, undefined>).item);
+   }
+   if (schema.reference === v.object) {
+      const { entries } = schema as v.ObjectSchema<v.ObjectEntries, undefined>;
+      for (const key in entries) {
+         if (!canReuseParsedValue(entries[key])) return false;
+      }
+      return true;
+   }
+   if (schema.reference === v.record) {
+      const record = schema as v.RecordSchema<
+         v.StringSchema<undefined>,
+         v.GenericSchema,
+         undefined
+      >;
+      return canReuseParsedValue(record.key) && canReuseParsedValue(record.value);
+   }
+   return schema.reference === v.string || schema.reference === v.number ||
+      schema.reference === v.boolean || schema.reference === v.literal ||
+      schema.reference === v.picklist || schema.reference === v.enum_ ||
+      schema.reference === v.any || schema.reference === v.unknown;
+}
+
 function createVersionCheck(
    schema: v.GenericSchema,
    version: Version,
@@ -134,10 +183,11 @@ function createVersionCheck(
          };
       }
    } else {
-      // A successful parent reparse already validated present child values.
+      // An issue-free, reusable initial parse or successful parent reparse
+      // already validated present child values.
       // Absence still needs checking because field() optionalizes required fields.
-      // Without a parent reparse, preserve validation and its early return for
-      // action issues or transformed values in the initially typed dataset.
+      // Otherwise preserve validation and its early return for action issues
+      // or transformed values in the initially typed dataset.
       const original = unwrapped;
       checkValue = (input, addIssue) => {
          if (validated && input !== undefined) return;
@@ -226,6 +276,10 @@ export function entity<
    ) => Version,
    entries: TEntries,
 ) {
+   const reusableEntries = new Set<string>();
+   for (const key in entries) {
+      if (canReuseParsedValue(entries[key])) reusableEntries.add(key);
+   }
    return v.pipe(
       // we assume no additional fields are present other than what is supported by the schema.
       // if we have unknown entries, we'll simply omit them from the validation output and pass validation as normal.
@@ -236,14 +290,16 @@ export function entity<
          // pull the entity version directly from the entity data using a resolver
          const version = resolveVersion(dataset.value);
          const comparisons = new Map<Version, -1 | 0 | 1>();
-         // Resolve checks once per schema, not once per array item. Supported
-         // optional subtrees need no second traversal after object validation.
+         // Resolve checks once per schema, not once per array item. Reuse
+         // safe initial output only when there are no validation issues;
+         // typed datasets can still contain action issues.
          // run version checks for all key/value entries defined within the schema
          for (const key in entries) {
             const check = createVersionCheck(
                entries[key],
                version,
                comparisons,
+               !dataset.issues?.length && reusableEntries.has(key),
             );
             if (!check) continue;
             const value = dataset.value[key as keyof typeof dataset.value];

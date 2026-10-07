@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.1.3 [2026-10-07]
+
+```diff
+* Reduced repeated object and custom data validation after successful schema checks
+* Reduced duplicate object and custom data copies when loading v3 lightshows
+```
+
 ## 3.1.2 [2026-10-06]
 
 ```diff

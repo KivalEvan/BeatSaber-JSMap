@@ -7,20 +7,16 @@ import { deserializeBasicEvent, serializeBasicEvent } from './basicEvent.ts';
 import { deserializeColorBoostEvent, serializeColorBoostEvent } from './colorBoostEvent.ts';
 import { deserializeFxEventBoxGroup, serializeFxEventBoxGroup } from './fxEventBoxGroup.ts';
 import { resolveIndexed } from '../shared/lookup.ts';
-import {
-   deserializeLightColorEventBoxGroup,
-   serializeLightColorEventBoxGroup,
-} from './lightColorEventBoxGroup.ts';
-import {
-   deserializeLightRotationEventBoxGroup,
-   serializeLightRotationEventBoxGroup,
-} from './lightRotationEventBoxGroup.ts';
+import { serializeLightColorEventBoxGroup } from './lightColorEventBoxGroup.ts';
+import { serializeLightRotationEventBoxGroup } from './lightRotationEventBoxGroup.ts';
 import type { IDeserializationOptions } from '../shared/types/schema.ts';
-import {
-   deserializeLightTranslationEventBoxGroup,
-   serializeLightTranslationEventBoxGroup,
-} from './lightTranslationEventBoxGroup.ts';
+import { serializeLightTranslationEventBoxGroup } from './lightTranslationEventBoxGroup.ts';
 import type { InferBeatmapDeserializationOptions } from '../shared/types/infer.ts';
+import {
+   deserializeDirectLightColorEventBoxGroup,
+   deserializeDirectLightRotationEventBoxGroup,
+   deserializeDirectLightTranslationEventBoxGroup,
+} from './_directEventBoxes.ts';
 
 /** Serialize beatmap v3 `Lightshow` object into schema object.
  * @param data The unwrapped beatmap object.
@@ -93,14 +89,14 @@ export function deserializeLightshow(
             return deserializeColorBoostEvent(x, deserializationOptions);
          }),
          lightColorEventBoxGroups: data.lightColorEventBoxGroups?.map((x) => {
-            return deserializeLightColorEventBoxGroup(x, deserializationOptions);
+            return deserializeDirectLightColorEventBoxGroup(x, deserializationOptions);
          }),
          lightRotationEventBoxGroups: data.lightRotationEventBoxGroups?.map((x) => {
-            return deserializeLightRotationEventBoxGroup(x, deserializationOptions);
+            return deserializeDirectLightRotationEventBoxGroup(x, deserializationOptions);
          }),
          lightTranslationEventBoxGroups: data.lightTranslationEventBoxGroups?.map(
             (x) => {
-               return deserializeLightTranslationEventBoxGroup(x, deserializationOptions);
+               return deserializeDirectLightTranslationEventBoxGroup(x, deserializationOptions);
             },
          ),
          fxEventBoxGroups: data.vfxEventBoxGroups?.map((obj) =>
