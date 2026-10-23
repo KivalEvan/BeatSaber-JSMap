@@ -2,6 +2,7 @@ export * from './animation.ts';
 export * from './bookmark.ts';
 export * from './bpmChange.ts';
 export * from './chroma.ts';
+export * from './chromaGLS.ts';
 export * from './customEvent.ts';
 export * from './difficulty.ts';
 export * from './heck.ts';

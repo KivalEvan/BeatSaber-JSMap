@@ -1,3 +1,4 @@
+import type { IChromaGLSLightColorEvent } from '../../v3/types/custom/chromaGLS.ts';
 import type { EventLightColor } from '../../../schema/shared/types/constants.ts';
 import type { EaseType } from '../../../schema/shared/types/constants.ts';
 import type { IWrapBaseObject } from './baseObject.ts';
@@ -61,4 +62,5 @@ export interface IWrapLightColorEvent extends IWrapBaseObject {
     * **Type:** {@linkcode EaseType}
     */
    easing: EaseType;
+   customData: IChromaGLSLightColorEvent;
 }

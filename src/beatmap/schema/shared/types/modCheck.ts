@@ -1,5 +1,5 @@
 /** Available mod suggestions. */
-export type ModSuggestions = 'Chroma' | 'Cinema';
+export type ModSuggestions = 'Chroma' | 'ChromaGLS' | 'Cinema';
 
 /** Available mod requirements. */
 export type ModRequirements =

@@ -1,3 +1,4 @@
+import type { IChromaGLSColorDistributions } from './custom/chromaGLS.ts';
 import type { DistributionType } from '../../shared/types/constants.ts';
 import type { IEventBox } from './eventBox.ts';
 import type { ILightColorEvent } from './lightColorEvent.ts';
@@ -32,4 +33,5 @@ export interface ILightColorEventBox extends IEventBox {
    b?: 0 | 1;
    /** Light color base data list. */
    e?: ILightColorEvent[];
+   customData?: IChromaGLSColorDistributions;
 }

@@ -311,6 +311,55 @@ import * as heck from '@kvl/bsmap/extensions/heck';
 import * as selector from '@kvl/bsmap/extensions/selector';
 ```
 
+### ChromaGLS custom data
+
+GLS color events and color event boxes accept the documented
+[ChromaGLS properties](https://github.com/EklipZgit/BeatSaberChromaGLS/blob/main/UsingChromaGLS.md).
+Use event custom data for RGB/RGBA colors, numeric easing, and strobe controls. Put ordered
+`colorDistributions` and `strobeColorDistributions` arrays on boxes, events, or both; box
+instructions run first. These fields do not apply to the group itself.
+
+```ts
+import { EaseType, wrapper } from '@kvl/bsmap';
+
+const box = wrapper.createLightColorEventBox({
+   customData: { colorDistributions: ['h,-0.7,L,l'] },
+   events: [{
+      time: 4,
+      easing: EaseType.LINEAR,
+      brightness: 1,
+      strobeBrightness: 0.2,
+      strobeFade: 1,
+      customData: {
+         color: [2, 0.2, 0, 1],
+         strobeColor: [0, 1, 1],
+         easing: EaseType.INOUT_SINE,
+         colorEasing: EaseType.LINEAR,
+         easingType: 'HSV',
+         strobeInterval: 1,
+         strobePulseWidth: 0.2,
+         strobeEasing: EaseType.IN_CUBIC,
+      },
+   }],
+});
+```
+
+Color components are not clamped, and omitted alpha defaults to 1 in ChromaGLS. `strobeInterval` is
+measured in beats per cycle. `strobePulseWidth` is a cycle fraction, defaulting to 0.5;
+`strobeEasing` defaults to InOutCubic. Incoming easing belongs to the destination event; pulse
+easing belongs to the active event. GLS custom easing uses numeric IDs, while basic Chroma events
+use easing names.
+
+Add `'ChromaGLS'` to the selected Info difficulty's `_requirements`, or `_suggestions` for optional
+lighting, preserving existing entries. V3 is ChromaGLS's documented authoring format. JSMap also
+types and preserves the same color-event and box payloads when converting between V3 and V4; in-game
+V4 compatibility depends on BeatToTheFuture.
+
+The documented ring compatibility override is `_mappedForOldRingPropogationSpeed` on Info or V2
+difficulty custom data, and `mappedForOldRingPropogationSpeed` on V3 difficulty custom data. The
+`Propogation` spelling is intentional. The Second's basic ring-position events already accept a
+fractional `customData.step`.
+
 ## Patch
 
 This module is not included as it is very rarely used and unstable. It contains functions to attempt

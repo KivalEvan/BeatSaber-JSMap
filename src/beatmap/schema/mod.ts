@@ -293,6 +293,8 @@ export {
    type IChromaGeometry as IV3ChromaGeometry,
    type IChromaGeometryBase as IV3ChromaGeometryBase,
    type IChromaGeometryCustom as IV3ChromaGeometryCustom,
+   type IChromaGLSColorDistributions as IV3ChromaGLSColorDistributions,
+   type IChromaGLSLightColorEvent as IV3ChromaGLSLightColorEvent,
    type IChromaMaterial as IV3ChromaMaterial,
    type IChromaNote as IV3ChromaNote,
    type IChromaObstacle as IV3ChromaObstacle,

@@ -15,6 +15,8 @@ import type {
  * Custom data schema for v4 info.
  */
 export interface ICustomDataInfo extends ICustomDataBase {
+   /** Use pre-1.42.1 ring propagation behavior via BeatToTheFuture. */
+   _mappedForOldRingPropogationSpeed?: boolean;
    _editors?: IEditor;
    _contributors?: IContributor[];
    _customEnvironment?: string;

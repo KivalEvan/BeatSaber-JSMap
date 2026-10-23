@@ -227,12 +227,16 @@ export interface IChromaCustomEventDataAssignFogTrack extends Required<IHeckBase
 
 /** Chroma Custom Data interface for difficulty custom data. */
 export interface IChromaCustomData {
+   /** Use pre-1.42.1 ring propagation behavior via BeatToTheFuture. */
+   _mappedForOldRingPropogationSpeed?: boolean;
    _environment?: IChromaEnvironment[];
    _materials?: Record<string, IChromaMaterial>;
 }
 
 /** Chroma interface for Difficulty Info Custom Data. */
 export interface IChromaInfoCustomData extends IInfoSettingsCustomData {
+   /** Use pre-1.42.1 ring propagation behavior via BeatToTheFuture. */
+   _mappedForOldRingPropogationSpeed?: boolean;
    _settings?: {
       _chroma?: {
          _disableChromaEvents?: boolean;

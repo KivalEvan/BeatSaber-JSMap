@@ -1,3 +1,4 @@
+import type { IChromaGLSLightColorEvent } from '../../v3/types/custom/chromaGLS.ts';
 import type { EventLightColor } from '../../shared/types/constants.ts';
 import type { EaseType } from '../../shared/types/constants.ts';
 import type { IItem } from './item.ts';
@@ -60,4 +61,5 @@ export interface ILightColorEvent extends IItem {
     * **Type:** `i32`
     */
    sf?: 0 | 1;
+   customData?: IChromaGLSLightColorEvent;
 }

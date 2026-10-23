@@ -1,6 +1,6 @@
 import type { TransitionType } from '../../shared/types/constants.ts';
 import type { EventLightColor } from '../../shared/types/constants.ts';
-import type { ICustomDataBase } from '../../shared/types/custom/customData.ts';
+import type { IChromaGLSLightColorEvent } from './custom/chromaGLS.ts';
 
 /**
  * Schema for v3 `Light Color Event`.
@@ -65,5 +65,5 @@ export interface ILightColorEvent {
     * **Type:** `i32`
     */
    sf?: 0 | 1;
-   customData?: ICustomDataBase;
+   customData?: IChromaGLSLightColorEvent;
 }

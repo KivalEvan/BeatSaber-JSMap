@@ -173,6 +173,7 @@ export interface IChromaEventLaser extends ICustomDataBase {
 export interface IChromaEventRing extends ICustomDataBase {
    nameFilter?: string;
    rotation?: number;
+   /** ChromaGLS also accepts a fractional ring-position scalar in The Second. */
    step?: number;
    prop?: number;
    speed?: number;
@@ -181,6 +182,7 @@ export interface IChromaEventRing extends ICustomDataBase {
 
 /** Chroma interface for Beatmap Event Ring Zoom Custom Data. */
 export interface IChromaEventZoom extends ICustomDataBase {
+   /** ChromaGLS also accepts a fractional ring-position scalar in The Second. */
    step?: number;
    speed?: number;
 }
@@ -213,6 +215,8 @@ export interface IChromaCustomEventDataAnimateComponent extends Required<IHeckBa
 
 /** Chroma Custom Data interface for difficulty custom data. */
 export interface IChromaCustomData {
+   /** Use pre-1.42.1 ring propagation behavior via BeatToTheFuture. */
+   mappedForOldRingPropogationSpeed?: boolean;
    environment?: IChromaEnvironment[];
    materials?: Record<string, IChromaMaterial>;
 }

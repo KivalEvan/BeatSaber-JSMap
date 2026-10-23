@@ -1,3 +1,4 @@
+import type { IChromaGLSColorDistributions } from '../../v3/types/custom/chromaGLS.ts';
 import type { DistributionType } from '../../../schema/shared/types/constants.ts';
 import type { IWrapEventBox } from './eventBox.ts';
 import type { IWrapLightColorEvent } from './lightColorEvent.ts';
@@ -25,4 +26,5 @@ export interface IWrapLightColorEventBox extends IWrapEventBox {
     */
    brightnessDistributionType: DistributionType;
    events: IWrapLightColorEvent[];
+   customData: IChromaGLSColorDistributions;
 }

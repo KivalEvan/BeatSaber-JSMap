@@ -12,6 +12,8 @@ import type { IVivifyCustomDataInfo } from './vivify.ts';
  * Custom Data interface for info.
  */
 export interface ICustomDataInfo extends ICustomDataBase, IVivifyCustomDataInfo {
+   /** Use pre-1.42.1 ring propagation behavior via BeatToTheFuture. */
+   _mappedForOldRingPropogationSpeed?: boolean;
    _editors?: IEditor;
    _contributors?: IContributor[];
    _customEnvironment?: string;
