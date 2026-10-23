@@ -1,5 +1,14 @@
 # Changelog
 
+## 3.1.4 [2026-10-23]
+
+```diff
++ Added Ghastly environment and color scheme
++ Added APT. (Britney Spears) color scheme variant
++ Added ChromaGLS custom data types
++ Added legacy ring propagation speed metadata for Chroma
+```
+
 ## 3.1.3 [2026-10-07]
 
 ```diff
