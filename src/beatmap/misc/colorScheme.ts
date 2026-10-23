@@ -55,6 +55,7 @@ export const EnvironmentSchemeName: {
    ColdplayEnvironment: 'Coldplay',
    ProdigyEnvironment: 'Prodigy',
    HipHopMixtape2Environment: 'Hip Hop Mixtape 2',
+   Halloween2026Environment: 'Ghastly',
    MultiplayerEnvironment: 'Origins',
 } as const;
 
@@ -485,6 +486,21 @@ export const ColorScheme: {
       _envColorRightBoost: { r: 0.120016046, g: 0.4862034, b: 0.8773585 },
       _envColorWhiteBoost: { r: 0.7254902, g: 0.7254902, b: 0.7254902 },
    },
+   Ghastly: {
+      _colorLeft: { r: 0.831372559, g: 0.250980407, b: 0.278431386 },
+      _colorRight: { r: 0.575294137, g: 0.639215708, b: 0.639215708 },
+      _obstacleColor: { r: 0, g: 1, b: 0.443137258 },
+      _envColorLeft: { r: 1, g: 0.160506636, b: 0.127358496 },
+      _envColorRight: { r: 1, g: 0.866666675, b: 0.003921569 },
+      _envColorWhite: { r: 0.725490212, g: 0.725490212, b: 0.725490212 },
+      _envColorLeftBoost: { r: 0.905660391, g: 0.200783193, b: 0.879713893 },
+      _envColorRightBoost: { r: 0, g: 1, b: 0.443137288 },
+      _envColorWhiteBoost: {
+         r: 0.98113209,
+         g: 0.930886626,
+         b: 0.860804558,
+      },
+   },
 } as const;
 
 /**
@@ -728,6 +744,19 @@ export const ColorSchemeVariant: {
          _colorRight: { r: 0.4862745, g: 0.78039217, b: 0.7019608 },
          _obstacleColor: { r: 0.8392157, g: 0.09803922, b: 0 },
          _envColorLeftBoost: { r: 0.917647064, g: 0.5568628, b: 0.1882353 },
+      },
+      'APT.': {
+         _colorLeft: { r: 0.9882353, g: 0.56078434, b: 0.670588255 },
+         _colorRight: { r: 0.447058827, g: 0.447058827, b: 0.447058827 },
+         _obstacleColor: { r: 0.768627465, g: 0.360784322, b: 0.435294122 },
+         _envColorLeft: { r: 0.8509804, g: 0.274509817, b: 0.427450985 },
+         _envColorRight: { r: 0.9647059, g: 0.8627451, b: 0.4627451 },
+         _envColorLeftBoost: { r: 1, g: 0.423529416, b: 0.831372559 },
+         _envColorRightBoost: {
+            r: 0.368627459,
+            g: 0.5568628,
+            b: 0.945098042,
+         },
       },
    },
    Weave: {

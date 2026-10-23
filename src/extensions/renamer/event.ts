@@ -331,6 +331,14 @@ export const environmentTypeMap: {
       4: 'Player Place',
       6: 'Ambient',
    },
+   Halloween2026Environment: {
+      0: 'Runway Laser Left',
+      1: 'Runway Laser Right',
+      4: 'Player Place',
+      5: 'Boost Colors',
+      6: 'Ambient',
+      7: 'Chevron',
+   },
    GlassDesertEnvironment: {},
    MultiplayerEnvironment: {},
 };

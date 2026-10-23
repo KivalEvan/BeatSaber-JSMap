@@ -49,6 +49,7 @@ export const EnvironmentName = [
    'ColdplayEnvironment',
    'ProdigyEnvironment',
    'HipHopMixtape2Environment',
+   'Halloween2026Environment',
    'GlassDesertEnvironment',
    'MultiplayerEnvironment',
 ] as const;
@@ -105,7 +106,8 @@ export type EnvironmentV3Name =
    | 'GridEnvironment'
    | 'ColdplayEnvironment'
    | 'ProdigyEnvironment'
-   | 'HipHopMixtape2Environment';
+   | 'HipHopMixtape2Environment'
+   | 'Halloween2026Environment';
 
 /** List of available 360 environment in base game. */
 export type Environment360Name =

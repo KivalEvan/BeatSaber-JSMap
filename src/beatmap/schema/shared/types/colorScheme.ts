@@ -45,5 +45,6 @@ export const ColorSchemeName = [
    'Coldplay',
    'Prodigy',
    'Hip Hop Mixtape 2',
+   'Ghastly',
 ] as const;
 export type ColorSchemeName = Member<typeof ColorSchemeName>;
