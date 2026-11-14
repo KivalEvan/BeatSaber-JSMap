@@ -7,11 +7,11 @@ import { hasNoodleExtensionsNoteV2 } from '../../helpers/modded/has.ts';
 import { NoteDirectionAngle } from '../../misc/remaps.ts';
 import type { NoteDirection } from '../../schema/shared/types/constants.ts';
 import { vectorMul } from '../../../utils/math/vector.ts';
-import { convertV4Rotation } from '../_rotation.ts';
 import eventToV2 from '../customData/eventToV2.ts';
 import objectToV2 from '../customData/objectToV2.ts';
 import { renameCustomDataKey } from '../customData/_helpers.ts';
 import { trackAnimationToV2 } from '../customData/trackAnimation.ts';
+import { convertV4Rotation } from '../../helpers/rotation.ts';
 
 function tag(name: string): string[] {
    return ['convert', 'toV2Beatmap', name];

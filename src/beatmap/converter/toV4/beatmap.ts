@@ -1,7 +1,8 @@
 import { getLogger } from '../../../logger.ts';
 import type { IWrapBeatmap } from '../../schema/wrapper/types/beatmap.ts';
 import { toV3Beatmap } from '../toV3/beatmap.ts';
-import { createRotationLaneLookup, legacyRotationLaneAt } from '../../schema/v4/_legacyRotation.ts';
+import { legacyRotationLaneAt } from '../../schema/v4/_legacyRotation.ts';
+import { createRotationLaneLookup } from '../../helpers/rotation.ts';
 
 type RotationObject =
    | IWrapBeatmap['difficulty']['arcs' | 'bombNotes' | 'chains' | 'colorNotes' | 'obstacles'][

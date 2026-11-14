@@ -1,14 +1,60 @@
-import type { IWrapBeatmap } from '../schema/wrapper/types/beatmap.ts';
+import type { IWrapBaseSlider, IWrapBeatmap, IWrapGridObject, IWrapRotationEvent } from '../schema/wrapper/types/mod.ts';
 import { assertLegacyRotationOnly } from '../schema/v4/_legacyRotation.ts';
+
+/** Creates a mapper function that derives lane rotation properties from grid objects based on legacy rotation events. */
+export function createRotationLaneLookup<T extends IWrapRotationEvent>(
+   rotationEvents: readonly T[],
+): (beat: number) => number {
+   const events = [...rotationEvents].sort(
+      (a, b) => a.time - b.time || a.executionTime - b.executionTime,
+   );
+   let rotation = 0;
+   const rotations = events.map((event) => {
+      rotation += event.rotation;
+      return Math.round(rotation % 360);
+   });
+   // Binary search allows serializers to retain their authored object order.
+   // The cumulative sum stays unrounded; only the final i32 lane is quantized.
+   return (beat: number): number => {
+      let low = 0;
+      let high = events.length;
+      while (low < high) {
+         const mid = (low + high) >>> 1;
+         const event = events[mid];
+         if (event.time < beat || (event.time === beat && event.executionTime === 0)) {
+            low = mid + 1;
+         } else {
+            high = mid;
+         }
+      }
+      return low ? rotations[low - 1] : 0;
+   };
+}
+
+/** Mutably applies lane rotation properties to object collections based on a mapper function. */
+export function assignTimelineRotations<T extends IWrapGridObject | IWrapBaseSlider>(
+   objects: readonly T[],
+   laneAt: (beat: number) => number,
+   skipHoles: boolean,
+): void {
+   for (let i = 0; i < objects.length; i++) {
+      if (skipHoles && !(i in objects)) continue;
+      const object = objects[i];
+      object.laneRotation = laneAt(object.time);
+      if ('tailLaneRotation' in object) {
+         // The v3 game loader samples BeatToRotation independently for each endpoint.
+         object.tailLaneRotation = laneAt(object.tailTime);
+      }
+   }
+}
 
 function sameLane(a: number, b: number): boolean {
    return a === b || (a - b) % 360 === 0;
 }
 
-// Internal v4 downgrade planner. No object is changed until every required
-// endpoint is known to be representable by one global timeline.
-export function convertV4Rotation(
-   bm: IWrapBeatmap,
+/** Backports lane rotation object properties to a global timeline of rotation events. */
+export function convertV4Rotation<T extends IWrapBeatmap>(
+   bm: T,
    overrideKey: 'worldRotation' | '_rotation',
 ): void {
    if (bm.difficulty.rotationEvents.length) {
