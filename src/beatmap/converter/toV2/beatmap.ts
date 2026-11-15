@@ -350,5 +350,5 @@ function fromV3<T extends IWrapBeatmap>(bm: T) {
 }
 
 function fromV4<T extends IWrapBeatmap>(bm: T) {
-   convertV4Rotation(bm, '_rotation');
+   convertV4Rotation(bm);
 }
