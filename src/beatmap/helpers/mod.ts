@@ -6,6 +6,7 @@ export * from './convert.ts';
 export * from './environment.ts';
 export * from './njs.ts';
 export * from './optimize.ts';
+export * from './rotation.ts';
 export * from './score.ts';
 export * from './sort.ts';
 export * from './timeProcessor.ts';

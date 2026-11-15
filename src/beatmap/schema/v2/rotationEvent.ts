@@ -11,11 +11,9 @@ import { EventLaneRotationValue, RotationValueEventValue } from '../../misc/rema
  */
 export function serializeRotationEvent(data: IWrapRotationEvent): IEvent {
    let r = data.rotation % 360;
-   const customData = deepCopy(data.customData);
    if (r >= -60 && r <= 60 && r % 15 === 0 && r / 15 !== 0) {
       r = RotationValueEventValue[r] || r + 1360;
    } else {
-      customData._rotation = r;
       r += 1360;
    }
    return {
@@ -23,7 +21,7 @@ export function serializeRotationEvent(data: IWrapRotationEvent): IEvent {
       _type: data.executionTime === 1 ? 15 : 14,
       _value: r,
       _floatValue: 0,
-      _customData: customData,
+      _customData: deepCopy(data.customData),
    };
 }
 
@@ -40,11 +38,7 @@ export function deserializeRotationEvent(
    return createRotationEvent({
       time: data._time,
       executionTime: data._type === 15 ? 1 : 0,
-      rotation: typeof data._customData?._rotation === 'number'
-         ? data._customData._rotation
-         : value >= 1000
-         ? (value - 1360) % 360
-         : EventLaneRotationValue[value],
+      rotation: value >= 1000 ? (value - 1360) % 360 : EventLaneRotationValue[value],
       customData: data._customData,
    }, options);
 }

@@ -8,11 +8,11 @@ import type { IWrapColorNote } from '../../schema/wrapper/types/colorNote.ts';
 import type { IWrapObstacle } from '../../schema/wrapper/types/obstacle.ts';
 import { clamp } from '../../../utils/math/helpers.ts';
 import { vectorMul } from '../../../utils/math/vector.ts';
-import { convertV4Rotation } from '../_rotation.ts';
 import eventToV3 from '../customData/eventToV3.ts';
 import objectToV3 from '../customData/objectToV3.ts';
 import { renameCustomDataKey } from '../customData/_helpers.ts';
 import { trackAnimationToV3 } from '../customData/trackAnimation.ts';
+import { convertV4Rotation } from '../../helpers/rotation.ts';
 
 function tag(name: string): string[] {
    return ['convert', 'toV3Beatmap', name];
@@ -465,5 +465,5 @@ function fromV2<T extends IWrapBeatmap>(bm: T) {
 }
 
 function fromV4<T extends IWrapBeatmap>(bm: T) {
-   convertV4Rotation(bm, 'worldRotation');
+   convertV4Rotation(bm);
 }

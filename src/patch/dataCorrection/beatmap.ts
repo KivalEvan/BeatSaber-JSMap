@@ -566,12 +566,11 @@ export function patchBeatmap<T extends IWrapBeatmap>(data: T): void {
          const laneRotationEvent = {
             time: ev.time,
             executionTime: ev.type == 15 ? ExecutionTime.LATE : ExecutionTime.EARLY,
-            rotation: ev.customData._rotation ??
-               (ev.value >= 1000 && ev.value <= 1720
-                  ? ev.value - 1360
-                  : ev.value >= 0 && ev.value <= 7
-                  ? EventLaneRotationValue[ev.value]
-                  : 0),
+            rotation: ev.value >= 1000 && ev.value <= 1720
+               ? ev.value - 1360
+               : ev.value >= 0 && ev.value <= 7
+               ? EventLaneRotationValue[ev.value]
+               : 0,
             customData: {},
          };
          if (laneRotationEvents) laneRotationEvents.push(laneRotationEvent);
