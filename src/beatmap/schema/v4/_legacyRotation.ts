@@ -1,5 +1,5 @@
+import { createRotationLaneLookup } from '../../helpers/rotation.ts';
 import type { IWrapBeatmap } from '../wrapper/types/beatmap.ts';
-import type { IWrapRotationEvent } from '../wrapper/types/rotationEvent.ts';
 
 // Internal to legacy-v4 migration. Keep the schema path independent of the
 // version converters; serialization only changes its new output records.
@@ -31,33 +31,4 @@ function assertNoNativeLanes(
          );
       }
    }
-}
-
-export function createRotationLaneLookup(
-   rotationEvents: readonly IWrapRotationEvent[],
-): (beat: number) => number {
-   const events = [...rotationEvents].sort(
-      (a, b) => a.time - b.time || a.executionTime - b.executionTime,
-   );
-   let rotation = 0;
-   const rotations = events.map((event) => {
-      rotation += event.rotation;
-      return Math.round(rotation % 360);
-   });
-   // Binary search allows serializers to retain their authored object order.
-   // The cumulative sum stays unrounded; only the final i32 lane is quantized.
-   return (beat: number): number => {
-      let low = 0;
-      let high = events.length;
-      while (low < high) {
-         const mid = (low + high) >>> 1;
-         const event = events[mid];
-         if (event.time < beat || (event.time === beat && event.executionTime === 0)) {
-            low = mid + 1;
-         } else {
-            high = mid;
-         }
-      }
-      return low ? rotations[low - 1] : 0;
-   };
 }

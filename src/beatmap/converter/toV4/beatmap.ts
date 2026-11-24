@@ -1,7 +1,8 @@
 import { getLogger } from '../../../logger.ts';
 import type { IWrapBeatmap } from '../../schema/wrapper/types/beatmap.ts';
 import { toV3Beatmap } from '../toV3/beatmap.ts';
-import { createRotationLaneLookup, legacyRotationLaneAt } from '../../schema/v4/_legacyRotation.ts';
+import { legacyRotationLaneAt } from '../../schema/v4/_legacyRotation.ts';
+import { createRotationLaneLookup } from '../../helpers/rotation.ts';
 
 type RotationObject =
    | IWrapBeatmap['difficulty']['arcs' | 'bombNotes' | 'chains' | 'colorNotes' | 'obstacles'][
@@ -25,31 +26,6 @@ function assignTimelineRotations(
    }
 }
 
-function consumeScalarRotationOverrides(objects: readonly RotationObject[]): boolean {
-   let consumed = false;
-   for (let i = 0; i < objects.length; i++) {
-      if (!(i in objects)) continue;
-      const object = objects[i];
-      if (typeof object.customData.worldRotation === 'number') {
-         consumed = true;
-         object.laneRotation = Math.round(object.customData.worldRotation);
-         if ('tailLaneRotation' in object) {
-            object.tailLaneRotation = object.laneRotation;
-         }
-      }
-   }
-   return consumed;
-}
-
-function removeScalarRotationOverrides(objects: readonly RotationObject[]): void {
-   for (let i = 0; i < objects.length; i++) {
-      if (!(i in objects)) continue;
-      const object = objects[i];
-      if (typeof object.customData.worldRotation === 'number') {
-         delete object.customData.worldRotation;
-      }
-   }
-}
 
 function tag(name: string): string[] {
    return ['convert', 'toV4Beatmap', name];
@@ -118,23 +94,6 @@ export function toV4Beatmap<T extends IWrapBeatmap>(
       assignTimelineRotations(waypoints, laneAt, true);
 
       data.difficulty.rotationEvents = [];
-   }
-
-   let consumedScalarOverride = consumeScalarRotationOverrides(arcs);
-   consumedScalarOverride = consumeScalarRotationOverrides(bombNotes) || consumedScalarOverride;
-   consumedScalarOverride = consumeScalarRotationOverrides(chains) || consumedScalarOverride;
-   consumedScalarOverride = consumeScalarRotationOverrides(colorNotes) || consumedScalarOverride;
-   consumedScalarOverride = consumeScalarRotationOverrides(obstacles) || consumedScalarOverride;
-   consumedScalarOverride = consumeScalarRotationOverrides(waypoints) || consumedScalarOverride;
-   // Indexed metadata can be shared in transfer mode. Every object must consume
-   // the override before its removal, without replacing any custom-data alias.
-   if (consumedScalarOverride) {
-      removeScalarRotationOverrides(arcs);
-      removeScalarRotationOverrides(bombNotes);
-      removeScalarRotationOverrides(chains);
-      removeScalarRotationOverrides(colorNotes);
-      removeScalarRotationOverrides(obstacles);
-      removeScalarRotationOverrides(waypoints);
    }
 
    return data;
